@@ -5,4 +5,30 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="menu_settings">Settings</string>
+    <string name="menu_addEvent">Add Event</string>
+    <string name="menu_addPerson">Add Person</string>
+    <string name="menu_refreshEvents">Refresh Events</string>
+    <string name="menu_showMap">Show on Map</string>
+    <string name="menu_eventSettings">Event Settings</string>
+    <string name="menu_buildDone">Done</string>
+
+    <color name="list1t">#E2A746</color>
+    <color name="list1b">#C48E40</color>
+
+    <color name="list2t">#60BD8A</color>
+    <color name="list2b">#4EA171</color>
+
+    <color name="list3t">#18A1B0</color>
+    <color name="list3b">#118894</color>
+
+    <color name="list4t">#6169A7</color>
+    <color name="list4b">#53528B</color>
+
+    <color name="list5t">#973B96</color>
+    <color name="list5b">#773971</color>
+
+    <color name="list6t">#70706E</color>
+    <color name="list6b">#515456</color>
+
 </resources>

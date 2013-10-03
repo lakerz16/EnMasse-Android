@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_buildDone"
+        android:icon="@drawable/ic_action_accept_dark"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_buildDone"/>
+    
+    <!--<item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_action_settings_dark"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_settings"/>-->
+
+</menu>

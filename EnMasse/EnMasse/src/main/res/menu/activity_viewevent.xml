@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_showMap"
+        android:icon="@drawable/ic_action_refresh_dark"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_showMap"/>
+    
+    <item
+        android:id="@+id/menu_addPerson"
+        android:icon="@drawable/ic_action_addperson_dark"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_addPerson"/>
+    
+    <item
+        android:id="@+id/menu_eventSettings"
+        android:icon="@drawable/ic_action_settings_dark"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_eventSettings"/>
+
+</menu>
