@@ -1,25 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="12dp">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/color_bar"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_width="12dp"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true" />-->
 
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/graph"
+        style="@android:style/TextAppearance.Medium"
         android:layout_alignParentTop="true"
-        android:background="#28ffffff"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#28000000"/>-->
+        android:textColor="#ff207DC1"
+        android:layout_marginLeft="12dp" />
+    <!-- android:layout_centerVertical="true" -->
 
-    <!--android:src="@drawable/ic_action_location_light"-->
+    <com.brewski.enmasse.views.MyPieGraph
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:id="@+id/graph"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_width="?android:attr/actionBarSize"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_right"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        />
+
+    <!--
     <ImageView
         android:id="@+id/eventIcon"
         android:layout_width="?android:attr/actionBarSize"
@@ -66,5 +82,5 @@
             style="@android:style/TextAppearance.Small"
             android:textIsSelectable="false" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 </RelativeLayout>
