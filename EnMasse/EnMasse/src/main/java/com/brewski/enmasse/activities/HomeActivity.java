@@ -31,7 +31,6 @@ import it.gmariotti.cardslib.library.view.CardListView;
 
 public class HomeActivity extends Activity {
 
-    //LinearLayout eventsList;
     LayoutInflater inflater;
     ListView eventList;
 
@@ -43,7 +42,7 @@ public class HomeActivity extends Activity {
 
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
         ParseAnalytics.trackAppOpened(getIntent());
-        
+
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         cards = new ArrayList<Card>();
