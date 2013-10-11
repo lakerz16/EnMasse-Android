@@ -41,8 +41,6 @@ public class EventCard extends Card {
     }
 
     private void init(){
-
-        //Set a OnClickListener listener
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
