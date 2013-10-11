@@ -43,14 +43,8 @@ public class HomeActivity extends Activity {
 
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
         ParseAnalytics.trackAppOpened(getIntent());
-
-        //eventsList = (LinearLayout) findViewById(R.id.eventList);
+        
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        //eventList = (ListView) findViewById(R.id.event_list);
-
-
-
 
         cards = new ArrayList<Card>();
         //Create a Card
@@ -161,62 +155,4 @@ public class HomeActivity extends Activity {
 
         return true;
     }
-
-    /*private class EventAdapter extends BaseAdapter {
-
-        private ArrayList<ParseObject> data;
-        private Activity mActivity;
-        private LayoutInflater inflater = null;
-
-        public EventAdapter(Activity a, List result) {
-            mActivity = a;
-            data = (ArrayList<ParseObject>)result;
-            inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View vi = convertView;
-            if (convertView == null)
-                vi = LayoutInflater.from(mActivity).inflate(R.layout.event_row, null);
-
-
-            ParseObject po = eventObjects.get(position);
-            //View x = eventsList.getChildAt(i);
-
-            ((TextView)(vi.findViewById(R.id.eventName))).setText(po.getString("name"));
-
-            ((ImageView)vi.findViewById(R.id.eventIcon)).setImageResource(R.drawable.ic_action_location_light);
-            ((ImageView)vi.findViewById(R.id.eventIcon)).setColorFilter(getResources().getColor(listColors[position % listColors.length]), PorterDuff.Mode.SRC_ATOP); // MULTIPLE
-
-
-
-            if(po.getString("going") == null) {
-                ((TextView)(vi.findViewById(R.id.eventDescription))).setText("0 confirmed");
-            }
-            else {
-                ((TextView)(vi.findViewById(R.id.eventDescription))).setText(Integer.toString(po.getString("going").split("\\|").length) + " confirmed");
-            }
-
-            vi.findViewById(R.id.color_bar).setBackgroundResource(listBacks[position % listBacks.length]);
-
-            return vi;
-        }
-    }*/
-    
 }
