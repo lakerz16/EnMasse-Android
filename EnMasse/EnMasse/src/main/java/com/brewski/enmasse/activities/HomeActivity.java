@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.brewski.enmasse.R;
@@ -28,19 +29,20 @@ import java.util.List;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRefreshListener{
 
     LayoutInflater inflater;
-    ListView eventList;
+    private PullToRefreshAttacher mPullToRefreshAttacher;
 
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
+
         ParseAnalytics.trackAppOpened(getIntent());
 
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,14 +58,19 @@ public class HomeActivity extends Activity {
 
         listView = (CardListView) findViewById(R.id.card_list);
 
-
-        if(Build.VERSION.SDK_INT >= 11) {
+        if (Build.VERSION.SDK_INT >= 11) {
             android.app.ActionBar ab = getActionBar();
             ab.setDisplayUseLogoEnabled(false);
             ab.setDisplayShowTitleEnabled(true);
             ab.setDisplayShowHomeEnabled(false);
             ab.setTitle("Events");
         }
+
+        // Create a PullToRefreshAttacher instance
+        mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
+
+        // Add the Refreshable View and provide the refresh listener
+        mPullToRefreshAttacher.addRefreshableView(listView, this);
     }
 
     ArrayList<Card> cards;
@@ -78,32 +85,32 @@ public class HomeActivity extends Activity {
 
     MenuItem refreshMenuItem = null;
 
-    @SuppressLint("NewApi")
+    /*@SuppressLint("NewApi")
     private void startRefreshBar() {
-        if(refreshMenuItem == null)
+        if (refreshMenuItem == null)
             return;
 
-        if(Build.VERSION.SDK_INT >= 11) {
+        if (Build.VERSION.SDK_INT >= 11) {
             refreshMenuItem.setActionView(R.layout.actionbar_refresh_progress);
         }
     }
 
     @SuppressLint("NewApi")
     private void stopRefreshBar() {
-        if(refreshMenuItem == null)
+        if (refreshMenuItem == null)
             return;
 
-        if(Build.VERSION.SDK_INT >= 11) {
+        if (Build.VERSION.SDK_INT >= 11) {
             refreshMenuItem.setActionView(null);
         }
-    }
+    }*/
 
     int[] listBacks = {R.drawable.list1, R.drawable.list2, R.drawable.list3, R.drawable.list4, R.drawable.list5, R.drawable.list6};
     int[] listColors = {R.color.list1t, R.color.list2t, R.color.list3t, R.color.list4t, R.color.list5t, R.color.list6t};
 
     private void refreshEventsList() {
 
-        startRefreshBar();
+        //startRefreshBar();
 
         ParseQuery query = new ParseQuery("Events");
         query.findInBackground(new FindCallback() {
@@ -112,13 +119,13 @@ public class HomeActivity extends Activity {
                 if (e == null) {
 
                     cards.clear();
-                    for(ParseObject p : (ArrayList<ParseObject>)eventQuery) {
+                    for (ParseObject p : (ArrayList<ParseObject>) eventQuery) {
                         cards.add(new EventCard(HomeActivity.this, R.layout.card_row, new Event(p)));
                     }
 
                     CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(HomeActivity.this, cards);
 
-                    if (listView != null){
+                    if (listView != null) {
                         listView.setAdapter(mCardArrayAdapter);
                     }
 
@@ -126,7 +133,8 @@ public class HomeActivity extends Activity {
                     Log.e("score", "Error: " + e.getMessage());
                 }
 
-                stopRefreshBar();
+                mPullToRefreshAttacher.setRefreshComplete();
+                //stopRefreshBar();
             }
         });
     }
@@ -142,16 +150,21 @@ public class HomeActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menu_addEvent:
                 startActivity(new Intent(this, BuildEvent.class));
                 break;
             case R.id.menu_refreshEvents:
-                refreshEventsList();
+                //refreshEventsList();
             default:
                 break;
         }
 
         return true;
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        refreshEventsList();
     }
 }
