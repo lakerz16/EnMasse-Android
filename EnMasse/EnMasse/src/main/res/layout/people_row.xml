@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/personIcon"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
@@ -28,7 +28,7 @@
             android:background="#00000000"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/bear" />
+            android:src="@drawable/bear" />-->
 
         <LinearLayout
             android:id="@+id/personText"
@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/personIcon"
             android:orientation="vertical"
             android:paddingBottom="5dp"
             android:paddingTop="5dp" >
@@ -47,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Hello"
                 android:textColor="#ffffff" />
 
             <TextView

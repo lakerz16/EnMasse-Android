@@ -47,6 +47,19 @@ public class EventCard extends Card {
                 openEvent();
             }
         });
+
+        setSwipeable(false);
+
+        //setOnClickListener(null);
+
+        setOnLongClickListener(new OnLongCardClickListener() {
+            @Override
+            public boolean onLongClick(Card card, View view) {
+                return true;
+                //return false;
+            }
+        });
+        setOnLongClickListener(null);
     }
 
     private void openEvent() {

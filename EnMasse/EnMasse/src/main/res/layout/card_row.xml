@@ -35,6 +35,49 @@
         android:layout_centerVertical="true"
         />
 
+    <TextView
+        android:id="@+id/ppl_going"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff00ff00"
+        android:textColor="#ffffffff"
+        android:padding="6dp"
+        android:layout_toRightOf="@+id/graph"
+        android:layout_below="@+id/event_name"
+        android:layout_marginLeft="12dp"
+        android:text="12"
+        />
+
+    <TextView
+        android:id="@+id/ppl_undecided"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff888888"
+        android:textColor="#ffffffff"
+        android:padding="6dp"
+        android:layout_toRightOf="@+id/ppl_going"
+        android:layout_below="@+id/event_name"
+        android:layout_marginLeft="12dp"
+        android:text="19"
+        />
+
+    <TextView
+        android:id="@+id/ppl_notGoing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffff0000"
+        android:textColor="#ffffffff"
+        android:padding="6dp"
+        android:layout_toRightOf="@+id/ppl_undecided"
+        android:layout_below="@+id/event_name"
+        android:layout_marginLeft="12dp"
+        android:text="6"
+        />
+
+
+
+
+
     <!--
     <ImageView
         android:id="@+id/eventIcon"

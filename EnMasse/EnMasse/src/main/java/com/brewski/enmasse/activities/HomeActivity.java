@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.models.Event;
@@ -24,17 +28,20 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRefreshListener{
 
-    LayoutInflater inflater;
     private PullToRefreshAttacher mPullToRefreshAttacher;
+    private ArrayList<Card> cards;
+    private CardListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +49,9 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
         setContentView(R.layout.activity_home);
 
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
-
         ParseAnalytics.trackAppOpened(getIntent());
 
-        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         cards = new ArrayList<Card>();
-        //Create a Card
-        //EventCard card = new EventCard(this, R.layout.card_row);
-        //Create a CardHeader
-        //CardHeader header = new CardHeader(this);
-        //Add Header to card
-        //card.addCardHeader(header);
-        //ards.add(card);
-
         listView = (CardListView) findViewById(R.id.card_list);
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -66,15 +62,10 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
             ab.setTitle("Events");
         }
 
-        // Create a PullToRefreshAttacher instance
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
-
-        // Add the Refreshable View and provide the refresh listener
-        mPullToRefreshAttacher.addRefreshableView(listView, this);
+        PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_Layout);
+        ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
     }
-
-    ArrayList<Card> cards;
-    CardListView listView;
 
     @Override
     public void onResume() {
@@ -83,34 +74,10 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
         refreshEventsList();
     }
 
-    MenuItem refreshMenuItem = null;
-
-    /*@SuppressLint("NewApi")
-    private void startRefreshBar() {
-        if (refreshMenuItem == null)
-            return;
-
-        if (Build.VERSION.SDK_INT >= 11) {
-            refreshMenuItem.setActionView(R.layout.actionbar_refresh_progress);
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private void stopRefreshBar() {
-        if (refreshMenuItem == null)
-            return;
-
-        if (Build.VERSION.SDK_INT >= 11) {
-            refreshMenuItem.setActionView(null);
-        }
-    }*/
-
     int[] listBacks = {R.drawable.list1, R.drawable.list2, R.drawable.list3, R.drawable.list4, R.drawable.list5, R.drawable.list6};
     int[] listColors = {R.color.list1t, R.color.list2t, R.color.list3t, R.color.list4t, R.color.list5t, R.color.list6t};
 
     private void refreshEventsList() {
-
-        //startRefreshBar();
 
         ParseQuery query = new ParseQuery("Events");
         query.findInBackground(new FindCallback() {
@@ -134,7 +101,6 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
                 }
 
                 mPullToRefreshAttacher.setRefreshComplete();
-                //stopRefreshBar();
             }
         });
     }
@@ -143,7 +109,6 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        refreshMenuItem = menu.findItem(R.id.menu_refreshEvents);
         return true;
     }
 
@@ -154,8 +119,6 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
             case R.id.menu_addEvent:
                 startActivity(new Intent(this, BuildEvent.class));
                 break;
-            case R.id.menu_refreshEvents:
-                //refreshEventsList();
             default:
                 break;
         }

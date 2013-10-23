@@ -87,7 +87,7 @@ public class ViewEvent extends Activity {
     		try {
     			String[] nameState = peep.split("\\*");
         		((TextView)(x.findViewById(R.id.personName))).setText(nameState[0]);
-        		((ImageButton)(x.findViewById(R.id.personIcon))).setImageResource(stateIcons[(Integer.parseInt(nameState[1]))]);
+        		//((ImageButton)(x.findViewById(R.id.personIcon))).setImageResource(stateIcons[(Integer.parseInt(nameState[1]))]);
     		} catch (Exception e) {
     			
     		}

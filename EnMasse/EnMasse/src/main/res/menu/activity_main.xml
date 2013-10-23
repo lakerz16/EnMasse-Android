@@ -6,10 +6,10 @@
         android:showAsAction="ifRoom"
         android:title="@string/menu_addEvent"/>
     
-    <item
+    <!--<item
         android:id="@+id/menu_refreshEvents"
         android:icon="@drawable/ic_action_refresh_dark"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_refreshEvents"/>
+        android:title="@string/menu_refreshEvents"/>-->
 
 </menu>
