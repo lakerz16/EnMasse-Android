@@ -31,7 +31,6 @@ import java.util.List;
 public class BuildEventActivity extends Activity {
 
     AutoCompleteTextView locationText;
-    TextView output;
     GeocodeController geoController;
 
     @SuppressLint("NewApi")
@@ -40,7 +39,6 @@ public class BuildEventActivity extends Activity {
         setContentView(R.layout.activity_buildevent);
 
         geoController = new GeocodeController();
-        output = (TextView) findViewById(R.id.geocoder);
         locationText = (AutoCompleteTextView) findViewById(R.id.location);
 
         locationText.addTextChangedListener(new TextWatcher() {

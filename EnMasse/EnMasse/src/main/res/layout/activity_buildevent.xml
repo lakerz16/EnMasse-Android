@@ -4,25 +4,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <AutoCompleteTextView
-        android:id="@+id/location"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="Location" />
 
     <ScrollView
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="#ff004499">
+        android:layout_width="match_parent">
 
-
-        <TextView
-            android:id="@+id/geocoder"
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textColor="#ffffffff"
-            android:padding="8dp" />
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="12dp"
+                android:hint="Event Name" />
+
+            <AutoCompleteTextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:hint="Event Location" />
+
+
+        </LinearLayout>
+
+
     </ScrollView>
 
 
