@@ -26,8 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.BuildEvent" />
-        <activity android:name=".activities.ViewEvent" />
+        <activity android:name=".activities.BuildEventActivity" />
+        <activity android:name=".activities.ViewEventActivity" />
     </application>
 
 </manifest>

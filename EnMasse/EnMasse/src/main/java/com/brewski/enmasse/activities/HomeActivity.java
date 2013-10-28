@@ -1,21 +1,12 @@
 package com.brewski.enmasse.activities;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.models.Event;
@@ -28,7 +19,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -65,6 +55,8 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_Layout);
         ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+
+        // http://api.openweathermap.org/data/2.5/find?q=Fairfax%20VA&mode=json
     }
 
     @Override
@@ -117,7 +109,7 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
 
         switch (item.getItemId()) {
             case R.id.menu_addEvent:
-                startActivity(new Intent(this, BuildEvent.class));
+                startActivity(new Intent(this, BuildEventActivity.class));
                 break;
             default:
                 break;

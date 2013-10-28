@@ -3,15 +3,13 @@ package com.brewski.enmasse.views;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.activities.Globals;
-import com.brewski.enmasse.activities.ViewEvent;
+import com.brewski.enmasse.activities.ViewEventActivity;
 import com.brewski.enmasse.models.Event;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -66,7 +64,7 @@ public class EventCard extends Card {
         Globals g = (Globals) context.getApplicationContext();
         g.eventName = event.GetName();
         g.currentEvent = event.GetObject();
-        context.startActivity(new Intent(context, ViewEvent.class));
+        context.startActivity(new Intent(context, ViewEventActivity.class));
     }
 
     @Override

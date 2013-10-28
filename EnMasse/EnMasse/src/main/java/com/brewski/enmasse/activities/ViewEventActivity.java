@@ -22,7 +22,7 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
-public class ViewEvent extends Activity {
+public class ViewEventActivity extends Activity {
 
 	LinearLayout peopleList;
 	LayoutInflater inflater;
@@ -155,7 +155,7 @@ public class ViewEvent extends Activity {
     	
     	switch(item.getItemId()) {
     	case R.id.menu_addPerson:
-    		//startActivity(new Intent(this, BuildEvent.class));
+    		//startActivity(new Intent(this, BuildEventActivity.class));
     		break;
     	case R.id.menu_showMap:
     		refreshQuery();
