@@ -2,22 +2,21 @@ package com.brewski.enmasse.activities;
 
 import android.app.Application;
 
+import com.brewski.enmasse.models.Event;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
 public class Globals extends Application {
 
-    public String eventName = "";
-    public ParseObject currentEvent = null;
-
-    public ArrayList<ParseObject> currentEvents;
+    public Event event;
+    public ArrayList<Event> events;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        currentEvents = new ArrayList<ParseObject>();
+        events = new ArrayList<Event>();
     }
 
 }

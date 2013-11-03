@@ -2,18 +2,14 @@ package com.brewski.enmasse.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.controllers.GeocodeController;
@@ -23,23 +19,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-public class BuildEventActivity extends Activity {
+public class EventActivity extends Activity {
 
+    EditText eventName;
     AutoCompleteTextView locationText;
     GeocodeController geoController;
+    Globals globals;
 
     @SuppressLint("NewApi")
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_buildevent);
 
+        globals = (Globals) getApplicationContext();
+
         geoController = new GeocodeController();
         locationText = (AutoCompleteTextView) findViewById(R.id.location);
+        eventName = (EditText) findViewById(R.id.name);
+
+        eventName.setText(globals.event.GetName());
+        locationText.setText(globals.event.GetLocation());
+
 
         locationText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -55,7 +57,7 @@ public class BuildEventActivity extends Activity {
                 if (s.toString().length() < 3)
                     return;
 
-                geoController.getLocationInfo(BuildEventActivity.this, s.toString());
+                geoController.getLocationInfo(EventActivity.this, s.toString());
             }
         });
 
@@ -67,7 +69,7 @@ public class BuildEventActivity extends Activity {
             //ab.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
 
-        overridePendingTransition(R.anim.slide_up_in, R.anim.do_nothing);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
     public void updateLocationStuff(JSONObject response) {
@@ -107,9 +109,9 @@ public class BuildEventActivity extends Activity {
                 finish();
                 break;
             case R.id.menu_buildDone:
-                ParseObject testObject = new ParseObject("Events");
-                testObject.put("name", locationText.getText().toString());
-                testObject.saveInBackground();
+                globals.event.Put("name", locationText.getText().toString());
+                globals.event.Put("location", locationText.getText().toString());
+                globals.event.Save();
                 finish();
                 break;
             default:
@@ -122,7 +124,7 @@ public class BuildEventActivity extends Activity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.do_nothing, R.anim.slide_down_out);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 
 }

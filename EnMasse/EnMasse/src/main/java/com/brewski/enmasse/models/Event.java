@@ -12,12 +12,24 @@ public class Event {
 
     ParseObject pObject;
 
+    public Event() {
+        pObject = new ParseObject("Events");
+    }
+
     public Event(ParseObject event) {
         pObject = event;
     }
 
+    public void Put(String key, String value) {
+        pObject.put(key, value);
+    }
+
+    public void Save() {
+        pObject.saveInBackground();
+    }
+
     public String GetName() { return pObject.getString("name"); }
-    public ParseObject GetObject() { return pObject;}
+    public String GetLocation() { return pObject.getString("location"); }
 
     public int GetNumberGoing() {
         if(pObject.getString("going") == null) {
@@ -28,5 +40,4 @@ public class Event {
             return pObject.getString("going").split("\\|").length;
         }
     }
-
 }

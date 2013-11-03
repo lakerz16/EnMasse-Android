@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.brewski.enmasse.R;
+import com.brewski.enmasse.activities.EventActivity;
 import com.brewski.enmasse.activities.Globals;
-import com.brewski.enmasse.activities.ViewEventActivity;
+import com.brewski.enmasse.activities.OldViewEventActivity;
 import com.brewski.enmasse.models.Event;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -46,25 +47,21 @@ public class EventCard extends Card {
             }
         });
 
-        setSwipeable(false);
-
-        //setOnClickListener(null);
-
+        /*
         setOnLongClickListener(new OnLongCardClickListener() {
             @Override
             public boolean onLongClick(Card card, View view) {
                 return true;
                 //return false;
             }
-        });
-        setOnLongClickListener(null);
+        });*/
     }
 
     private void openEvent() {
         Globals g = (Globals) context.getApplicationContext();
-        g.eventName = event.GetName();
-        g.currentEvent = event.GetObject();
-        context.startActivity(new Intent(context, ViewEventActivity.class));
+        //g.eventName = event.GetName();
+        g.event = event;
+        context.startActivity(new Intent(context, EventActivity.class));
     }
 
     @Override

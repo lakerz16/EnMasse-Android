@@ -33,10 +33,14 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
     private ArrayList<Card> cards;
     private CardListView listView;
 
+    private Globals globals;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        globals = (Globals) getApplicationContext();
 
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
         ParseAnalytics.trackAppOpened(getIntent());
@@ -77,9 +81,14 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
             public void done(List eventQuery, ParseException e) {
                 if (e == null) {
 
-                    cards.clear();
+                    globals.events.clear();
                     for (ParseObject p : (ArrayList<ParseObject>) eventQuery) {
-                        cards.add(new EventCard(HomeActivity.this, R.layout.card_row, new Event(p)));
+                        globals.events.add(new Event(p));
+                    }
+
+                    cards.clear();
+                    for (Event event : (ArrayList<Event>) globals.events) {
+                        cards.add(new EventCard(HomeActivity.this, R.layout.card_row, event));
                     }
 
                     CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(HomeActivity.this, cards);
@@ -109,7 +118,10 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
 
         switch (item.getItemId()) {
             case R.id.menu_addEvent:
-                startActivity(new Intent(this, BuildEventActivity.class));
+                Event newEvent = new Event();
+                globals.events.add(newEvent);
+                globals.event = newEvent;
+                startActivity(new Intent(this, EventActivity.class));
                 break;
             default:
                 break;

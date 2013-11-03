@@ -22,7 +22,7 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
-public class ViewEventActivity extends Activity {
+public class OldViewEventActivity extends Activity {
 
 	LinearLayout peopleList;
 	LayoutInflater inflater;
@@ -34,6 +34,8 @@ public class ViewEventActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_viewevent);
+
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
 		
 		peopleList = (LinearLayout) findViewById(R.id.peopleList);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +47,7 @@ public class ViewEventActivity extends Activity {
 	        ab.setDisplayUseLogoEnabled(false);
 	        ab.setDisplayShowHomeEnabled(false);
 	        ab.setDisplayShowTitleEnabled(true);
-	        ab.setTitle(globals.eventName);
+	        ab.setTitle(globals.event.GetName());
 		}
 	}
 	
@@ -53,7 +55,7 @@ public class ViewEventActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		
-		fillPeopleList(((Globals)getApplicationContext()).currentEvent);
+		//fillPeopleList(((Globals)getApplicationContext()).currentEvent);
 		
 		refreshQuery(); // we should use this, then call fillPeopleList()
 	}
@@ -116,10 +118,12 @@ public class ViewEventActivity extends Activity {
             public void done(List list, ParseException e) {
                 if (e == null) {
                     for(ParseObject po : (List<ParseObject>) list) {
-                        if(po.getString("name").equals(globals.eventName)) {
+                        // If we're refreshing all the events, might as well store them.
+                        // Should probably just refresh the one...
+                        /*if(po.getString("name").equals(globals.eventName)) {
                             globals.currentEvent = po;
                             fillPeopleList(po);
-                        }
+                        }*/
                     }
                 } else {
                     Log.e("score", "Error: " + e.getMessage());
@@ -155,7 +159,7 @@ public class ViewEventActivity extends Activity {
     	
     	switch(item.getItemId()) {
     	case R.id.menu_addPerson:
-    		//startActivity(new Intent(this, BuildEventActivity.class));
+    		//startActivity(new Intent(this, EventActivity.class));
     		break;
     	case R.id.menu_showMap:
     		refreshQuery();
@@ -166,5 +170,4 @@ public class ViewEventActivity extends Activity {
 
         return true;
     }
-
 }

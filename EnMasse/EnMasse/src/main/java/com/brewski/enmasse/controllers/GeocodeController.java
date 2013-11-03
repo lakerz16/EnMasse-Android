@@ -1,9 +1,8 @@
 package com.brewski.enmasse.controllers;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
-import com.brewski.enmasse.activities.BuildEventActivity;
+import com.brewski.enmasse.activities.EventActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -70,9 +69,9 @@ public class GeocodeController {
         }
     }
 
-    BuildEventActivity returnActivity;
+    EventActivity returnActivity;
 
-    public void getLocationInfo(BuildEventActivity activity, String address) {
+    public void getLocationInfo(EventActivity activity, String address) {
 
         returnActivity = activity;
 
