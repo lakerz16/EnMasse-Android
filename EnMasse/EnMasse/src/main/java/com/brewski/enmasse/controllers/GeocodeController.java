@@ -1,8 +1,10 @@
 package com.brewski.enmasse.controllers;
 
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 
 import com.brewski.enmasse.activities.EventActivity;
+import com.brewski.enmasse.models.GeoLocation;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,11 +12,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by matt on 10/28/13.
@@ -60,9 +64,19 @@ public class GeocodeController {
             return jsonObject.toString();
         }
 
-        protected void onPostExecute(String response) {
+        protected void onPostExecute(String res) {
             try {
-                returnActivity.updateLocationStuff(new JSONObject(response));
+
+                JSONObject response = new JSONObject(res);
+                ArrayList<GeoLocation> locations = new ArrayList<GeoLocation>();
+
+                for(int i=0; i<response.getJSONArray("results").length(); i++) {
+                    GeoLocation location = new GeoLocation(response.getJSONArray("results").getJSONObject(i));
+                    locations.add(location);
+                }
+
+                returnActivity.updateLocationStuff(locations);
+
             } catch (JSONException e) {
                 //e.printStackTrace();
             }

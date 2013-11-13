@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.activities.EventActivity;
 import com.brewski.enmasse.activities.Globals;
 import com.brewski.enmasse.activities.OldViewEventActivity;
+import com.brewski.enmasse.controllers.WeatherController;
 import com.brewski.enmasse.models.Event;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -86,22 +88,7 @@ public class EventCard extends Card {
 
         pie.setThickness(12);
 
-        //Retrieve elements
-        /*mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
-        mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
-        mRatingBar = (RatingBar) parent.findViewById(R.id.carddemo_myapps_main_inner_ratingBar);
-
-
-        if (mTitle!=null)
-            mTitle.setText(R.string.demo_custom_card_google_maps);
-
-        if (mSecondaryTitle!=null)
-            mSecondaryTitle.setText(R.string.demo_custom_card_googleinc);
-
-        if (mRatingBar!=null)
-            mRatingBar.setNumStars(5);
-        mRatingBar.setMax(5);
-        mRatingBar.setRating(4.7f);*/
-
+        ImageView weather = (ImageView) parent.findViewById(R.id.weather);
+        weather.setImageResource(WeatherController.GetWeatherResource(event.GetWeather()));
     }
 }

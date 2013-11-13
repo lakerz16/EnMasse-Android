@@ -12,19 +12,20 @@
             android:layout_width="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/name_button"
                 android:layout_width="match_parent"
-                android:layout_margin="12dp"
-                android:hint="Event Name" />
+                android:layout_height="wrap_content" />
 
-            <AutoCompleteTextView
-                android:id="@+id/location"
+            <Button
+                android:id="@+id/location_button"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/weather"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:hint="Event Location" />
+                android:layout_width="match_parent" />
 
             <Button
                 android:id="@+id/datetime"
@@ -35,12 +36,12 @@
                 android:id="@+id/date"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:spinnersShown="false"/>
+                android:spinnersShown="false" />
 
             <TimePicker
                 android:id="@+id/time"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent" />
 
         </LinearLayout>
 

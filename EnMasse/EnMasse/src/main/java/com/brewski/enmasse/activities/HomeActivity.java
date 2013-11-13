@@ -1,9 +1,7 @@
 package com.brewski.enmasse.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -24,15 +22,17 @@ import java.util.List;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
-public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRefreshListener{
+public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.OnRefreshListener {
+
+    @InjectView(R.id.card_list) CardListView listView;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
-    private ArrayList<Card> cards;
-    private CardListView listView;
-
+    private ArrayList<Card> cards = new ArrayList<Card>();
     private Globals globals;
 
     @Override
@@ -45,16 +45,8 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
         ParseAnalytics.trackAppOpened(getIntent());
 
-        cards = new ArrayList<Card>();
-        listView = (CardListView) findViewById(R.id.card_list);
-
-        if (Build.VERSION.SDK_INT >= 11) {
-            android.app.ActionBar ab = getActionBar();
-            ab.setDisplayUseLogoEnabled(false);
-            ab.setDisplayShowTitleEnabled(true);
-            ab.setDisplayShowHomeEnabled(false);
-            ab.setTitle("Events");
-        }
+        getActionBar().setDisplayUseLogoEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
 
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_Layout);
@@ -87,7 +79,7 @@ public class HomeActivity extends Activity implements PullToRefreshAttacher.OnRe
                     }
 
                     cards.clear();
-                    for (Event event : (ArrayList<Event>) globals.events) {
+                    for (Event event : globals.events) {
                         cards.add(new EventCard(HomeActivity.this, R.layout.card_row, event));
                     }
 

@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.EventActivity" />
+        <activity android:name=".activities.EventActivity" android:parentActivityName="com.brewski.enmasse.activities.HomeActivity"/>
         <activity android:name=".activities.OldViewEventActivity" />
     </application>
 

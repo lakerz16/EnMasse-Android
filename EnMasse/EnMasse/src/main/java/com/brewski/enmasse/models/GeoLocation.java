@@ -1,5 +1,6 @@
 package com.brewski.enmasse.models;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -12,7 +13,18 @@ public class GeoLocation {
     private String lng;
 
     public GeoLocation(JSONObject object) {
+        try {
+            name = object.getString("formatted_address");
+            lat = object.getJSONObject("geometry").getJSONObject("location").getString("lat");
+            lng = object.getJSONObject("geometry").getJSONObject("location").getString("lng");
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    public String GetName() { return name; }
+    public String GetLat() { return lat; }
+    public String GetLng() { return lng; }
+    public String GetCoordinates() { return lat + "," + lng; }
 }
