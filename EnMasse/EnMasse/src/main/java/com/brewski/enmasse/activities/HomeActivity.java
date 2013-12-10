@@ -1,7 +1,9 @@
 package com.brewski.enmasse.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -29,7 +31,8 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.OnRefreshListener {
 
-    @InjectView(R.id.card_list) CardListView listView;
+    @InjectView(R.id.card_list)
+    CardListView listView;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
     private ArrayList<Card> cards = new ArrayList<Card>();
@@ -46,7 +49,8 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
         ParseAnalytics.trackAppOpened(getIntent());
 
         getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>Grail</font>"));
 
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_Layout);

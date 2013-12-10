@@ -1,14 +1,15 @@
 package com.brewski.enmasse.models;
 
 import android.util.Log;
-import android.widget.TextView;
 
-import com.brewski.enmasse.R;
 import com.brewski.enmasse.controllers.ParseController;
 import com.brewski.enmasse.controllers.WeatherController;
 import com.parse.ParseObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by matt on 10/7/13.
@@ -20,6 +21,9 @@ public class Event {
     private String location = "";
     private String coordinates = "";
     private ArrayList<Person> people;
+    private long datetime = 0;
+
+    private WeatherReading weather;
 
     public Event() {
         people = new ArrayList<Person>();
@@ -29,8 +33,6 @@ public class Event {
 
         objectId = event.getObjectId();
 
-        Log.e("Getting ObjectId", objectId);
-
         if (event.has("name"))
             name = event.getString("name");
 
@@ -39,6 +41,10 @@ public class Event {
 
         if (event.has("coordinates"))
             coordinates = event.getString("coordinates");
+
+        if (event.has("date")) {
+            datetime = event.getLong("date");
+        }
 
         people = new ArrayList<Person>();
 
@@ -62,6 +68,33 @@ public class Event {
         coordinates = l.GetCoordinates();
     }
 
+    public void SetDate(String date) {
+        //this.date = date;
+    }
+
+    public void SetTime(String time) {
+        //this.time = time;
+    }
+
+    public void SetWeather(WeatherReading weather) {
+        this.weather = weather;
+    }
+
+    public String GetDateTime() {
+
+        if(datetime == 0)
+            return "Event Date";
+
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(datetime);
+        return formatter.format(calendar.getTime());
+    }
+
+    public long GetDateMillis() {
+        return System.currentTimeMillis();
+    }
+
     public String GetName() {
         if (name.equals(""))
             return ParseController.NullName;
@@ -79,25 +112,24 @@ public class Event {
             return ParseController.NullLocation;
         return coordinates;
     }
-
-    public String GetXCoord() {
-        return coordinates;
-    } //TODO
-
-    public String GetYCoord() {
-        return coordinates;
-    } //TODO
+    public boolean HasCoordinates() {
+        if(coordinates.equals("") || coordinates.equals(ParseController.NullLocation))
+            return false;
+        return true;
+    }
+    public String GetLat() {
+        return coordinates.split(",")[0];
+    }
+    public String GetLon() {
+        return coordinates.split(",")[1];
+    }
 
     public int GetNumberGoing() {
         return people.size();
     }
 
-    public int GetWeather() {
-        if (GetLocation().equals(ParseController.NullLocation)) {
-            return 0;
-        }
-
-        return WeatherController.GetWeather(GetXCoord(), GetYCoord());
+    public WeatherReading GetWeather() {
+        return weather;
     }
 
     public ParseObject AsParseObject() {
@@ -110,6 +142,7 @@ public class Event {
         p.put("name", GetName());
         p.put("location", GetLocation());
         p.put("coordinates", GetCoordinates());
+        p.put("date", GetDateMillis());
 
         // other stuff
 

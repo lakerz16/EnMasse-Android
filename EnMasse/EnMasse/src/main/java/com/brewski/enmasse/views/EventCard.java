@@ -3,6 +3,7 @@ package com.brewski.enmasse.views;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.brewski.enmasse.activities.Globals;
 import com.brewski.enmasse.activities.OldViewEventActivity;
 import com.brewski.enmasse.controllers.WeatherController;
 import com.brewski.enmasse.models.Event;
+import com.brewski.enmasse.models.WeatherReading;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 
@@ -49,23 +51,20 @@ public class EventCard extends Card {
             }
         });
 
-        /*
-        setOnLongClickListener(new OnLongCardClickListener() {
-            @Override
-            public boolean onLongClick(Card card, View view) {
-                return true;
-                //return false;
-            }
-        });*/
+        // call for a weather update
+        if(event.HasCoordinates()) {
+            WeatherController weatherController = new WeatherController();
+            weatherController.getWeatherInfo(this, event);
+        }
     }
 
     private void openEvent() {
         Globals g = (Globals) context.getApplicationContext();
-        //g.eventName = event.GetName();
         g.event = event;
         context.startActivity(new Intent(context, EventActivity.class));
     }
 
+    ImageView weather;
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -88,7 +87,21 @@ public class EventCard extends Card {
 
         pie.setThickness(12);
 
-        ImageView weather = (ImageView) parent.findViewById(R.id.weather);
-        weather.setImageResource(WeatherController.GetWeatherResource(event.GetWeather()));
+        TextView date = (TextView) parent.findViewById(R.id.event_date);
+        date.setText(event.GetDateTime());
+
+        TextView location = (TextView) parent.findViewById(R.id.event_location);
+        location.setText(event.GetLocation());
+
+        weather = (ImageView) parent.findViewById(R.id.weather);
+    }
+
+    public void UpdateWeather(WeatherReading w) {
+        event.SetWeather(w);
+
+        if(event.GetWeather() == null)
+            return;
+
+        weather.setImageResource(event.GetWeather().GetWeatherResource());
     }
 }

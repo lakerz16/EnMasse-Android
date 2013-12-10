@@ -1,11 +1,9 @@
 package com.brewski.enmasse.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -14,13 +12,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.controllers.GeocodeController;
 import com.brewski.enmasse.controllers.ParseController;
 import com.brewski.enmasse.models.Event;
 import com.brewski.enmasse.models.GeoLocation;
+import com.brewski.enmasse.util.Utilities;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -29,15 +30,19 @@ import java.util.ArrayList;
 
 public class EventActivity extends RoboActivity {
 
-    @InjectView(R.id.name_button)
-    Button nameButton;
-    @InjectView(R.id.location_button)
-    Button locationButton;
+    @InjectView(R.id.edit_name)
+    EditText editName;
+    @InjectView(R.id.edit_location)
+    AutoCompleteTextView editLocation;
+    @InjectView(R.id.edit_date)
+    EditText editDate;
 
     GeocodeController geoController;
     Event currentEvent;
     GeoLocation tempLocation;
-    AutoCompleteTextView location;
+    //AutoCompleteTextView location;
+
+    boolean pickedLocationFromList = false;
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -46,15 +51,18 @@ public class EventActivity extends RoboActivity {
         currentEvent = ((Globals) getApplicationContext()).event;
         geoController = new GeocodeController();
 
-        nameButton.setText(currentEvent.GetName());
-        locationButton.setText(currentEvent.GetLocation());
+        editName.setText(currentEvent.GetName());
+        editLocation.setText(currentEvent.GetLocation());
+        editDate.setText(Long.toString(currentEvent.GetDateMillis()));
 
-        if (currentEvent.GetName().equals(ParseController.NullName))
-            nameButton.setText("");
-        if (currentEvent.GetLocation().equals(ParseController.NullLocation))
-            locationButton.setText("");
+        if (currentEvent.GetName().equals(ParseController.NullName)) {
+            editName.setText("");
+        }
+        if (currentEvent.GetLocation().equals(ParseController.NullLocation)) {
+            editLocation.setText("");
+        }
 
-        nameButton.setOnClickListener(new View.OnClickListener() {
+        /*nameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(EventActivity.this);
@@ -62,6 +70,7 @@ public class EventActivity extends RoboActivity {
                 dialog.setTitle("Name");
 
                 final EditText name = (EditText) dialog.findViewById(R.id.name);
+                name.append(currentEvent.GetName());
 
                 Button save = (Button) dialog.findViewById(R.id.ok_button);
                 Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
@@ -83,9 +92,30 @@ public class EventActivity extends RoboActivity {
 
                 dialog.show();
             }
+        });*/
+
+        tempLocation = null;
+        editLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() < 3)
+                    return;
+
+                geoController.getLocationInfo(EventActivity.this, editable.toString());
+
+                pickedLocationFromList = false;
+            }
         });
 
-        locationButton.setOnClickListener(new View.OnClickListener() {
+        /*locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(EventActivity.this);
@@ -95,6 +125,7 @@ public class EventActivity extends RoboActivity {
                 tempLocation = null;
 
                 location = (AutoCompleteTextView) dialog.findViewById(R.id.location);
+                location.append(currentEvent.GetLocation());
 
                 location.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -154,13 +185,62 @@ public class EventActivity extends RoboActivity {
                         dialog.dismiss();
                     }
                 });
-            }
-        });
 
+                dialog.show();
+            }
+        });*/
+
+        /*dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(EventActivity.this);
+                dialog.setContentView(R.layout.dialog_eventdate);
+                dialog.setTitle("Date & Time");
+
+                final DatePicker date = (DatePicker) dialog.findViewById(R.id.date);
+                final TimePicker time = (TimePicker) dialog.findViewById(R.id.time);
+
+                //Utilities.SetDatePicker(date, currentEvent.GetDate());
+                //Utilities.SetTimePicker(time, currentEvent.GetTime());
+
+                Button save = (Button) dialog.findViewById(R.id.ok_button);
+                Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        StringBuilder strDate = new StringBuilder();
+                        strDate.append(date.getYear()).append("|");
+                        strDate.append(date.getMonth()).append("|");
+                        strDate.append(date.getDayOfMonth());
+
+                        StringBuilder strTime = new StringBuilder();
+                        strTime.append(time.getCurrentHour()).append("|");
+                        strTime.append(time.getCurrentMinute());
+
+                        currentEvent.SetDate(strDate.toString());
+                        currentEvent.SetTime(strTime.toString());
+
+                        dialog.dismiss();
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });*/
 
         getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + currentEvent.GetName() + "</font>"));
 
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
@@ -169,8 +249,8 @@ public class EventActivity extends RoboActivity {
 
     public void updateLocationStuff(ArrayList<GeoLocation> locations) {
 
-        if (location == null)
-            return; // potential minor bug where locations are returned to a new dialog instance
+        if (editLocation == null)
+            return;
 
         returnedLocations = locations;
 
@@ -180,7 +260,18 @@ public class EventActivity extends RoboActivity {
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, locationNames);
-        location.setAdapter(adapter);
+        editLocation.setAdapter(adapter);
+
+        editLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                tempLocation = returnedLocations.get(i);
+                pickedLocationFromList = true;
+
+                // get the coordinates from the geocoding service...
+                // if we care about showing weather here
+            }
+        });
     }
 
     @Override
@@ -198,8 +289,13 @@ public class EventActivity extends RoboActivity {
                 finish();
                 break;
             case R.id.menu_buildDone:
-                currentEvent.SetName(nameButton.getText().toString()); // seems wrong to ask the view for the value
-                currentEvent.SetLocation(locationButton.getText().toString());
+                //currentEvent.SetName(nameButton.getText().toString()); // seems wrong to ask the view for the value
+                currentEvent.SetName(editName.getText().toString());
+                //currentEvent.SetLocation(locationButton.getText().toString());
+                if (pickedLocationFromList)
+                    currentEvent.SetLocation(tempLocation);
+                else
+                    currentEvent.SetLocation(editLocation.getText().toString());
                 currentEvent.Save();
                 finish();
                 break;

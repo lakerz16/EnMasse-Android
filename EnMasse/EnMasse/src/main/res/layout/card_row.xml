@@ -20,6 +20,28 @@
         android:layout_marginLeft="12dp" />
     <!-- android:layout_centerVertical="true" -->
 
+    <TextView
+        android:id="@+id/event_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/graph"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_below="@+id/event_name"
+        android:textColor="#cccccc"
+        android:layout_marginLeft="12dp"
+        />
+
+    <TextView
+        android:id="@+id/event_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/graph"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_below="@+id/event_date"
+        android:textColor="#cccccc"
+        android:layout_marginLeft="12dp"
+        />
+
     <com.brewski.enmasse.views.MyPieGraph
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="?android:attr/actionBarSize"
@@ -46,6 +68,7 @@
         android:layout_below="@+id/event_name"
         android:layout_marginLeft="12dp"
         android:text="12"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -59,6 +82,7 @@
         android:layout_below="@+id/event_name"
         android:layout_marginLeft="12dp"
         android:text="19"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -72,6 +96,7 @@
         android:layout_below="@+id/event_name"
         android:layout_marginLeft="12dp"
         android:text="6"
+        android:visibility="invisible"
         />
 
 

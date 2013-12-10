@@ -1,7 +1,27 @@
 package com.brewski.enmasse.controllers;
 
-import com.brewski.enmasse.R;
+import android.os.AsyncTask;
+import android.util.Log;
 
+import com.brewski.enmasse.R;
+import com.brewski.enmasse.activities.EventActivity;
+import com.brewski.enmasse.models.Event;
+import com.brewski.enmasse.models.GeoLocation;
+import com.brewski.enmasse.models.WeatherReading;
+import com.brewski.enmasse.views.EventCard;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -9,44 +29,56 @@ import java.util.Random;
  */
 public class WeatherController {
 
-    public static final int WEATHER_NONE = 0;
-    public static final int WEATHER_CLOUDY = 1;
-    public static final int WEATHER_DRIZZLE = 2;
-    public static final int WEATHER_HAZE = 3;
-    public static final int WEATHER_MOSTLYCLOUDY = 4;
-    public static final int WEATHER_RAIN = 5;
-    public static final int WEATHER_SNOW = 6;
-    public static final int WEATHER_SUNNY = 7;
-    public static final int WEATHER_THUNDERSTORMS = 8;
-
-    public static int GetWeather(String lat, String lng) {
-        // TODO Do a request for the weather.  We'll probably want to have the server do this though
-
-        Random rand = new Random();
-        return (rand.nextInt() % 8) + 1;
+    public WeatherController() {
     }
 
-    public static int GetWeatherResource(int state) {
-        switch(state) {
-            case WEATHER_NONE:
-                return 0;
-            case WEATHER_CLOUDY:
-                return R.drawable.weather_cloudy;
-            case WEATHER_DRIZZLE:
-                return R.drawable.weather_drizzle;
-            case WEATHER_HAZE:
-                return R.drawable.weather_haze;
-            case WEATHER_MOSTLYCLOUDY:
-                return R.drawable.weather_mostlycloudy;
-            case WEATHER_RAIN:
-                return R.drawable.weather_rain;
-            case WEATHER_SNOW:
-                return R.drawable.weather_snow;
-            case WEATHER_SUNNY:
-                return R.drawable.weather_sunny;
-            case WEATHER_THUNDERSTORMS:
-            default:
-                return R.drawable.weather_thunderstorms;
+    private class GoGetWeather extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+
+        protected String doInBackground(String... params) {
+
+            HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/weather?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            try {
+                response = client.execute(httpGet);
+                HttpEntity entity = response.getEntity();
+                InputStream stream = entity.getContent();
+                int b;
+                while ((b = stream.read()) != -1) {
+                    stringBuilder.append((char) b);
+                }
+            } catch (ClientProtocolException e) {
+            } catch (IOException e) {
+            }
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject = new JSONObject(stringBuilder.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jsonObject.toString();
+        }
+
+        protected void onPostExecute(String res) {
+            WeatherReading weather = new WeatherReading(res);
+            returnCard.UpdateWeather(weather);
         }
     }
+
+    EventCard returnCard;
+
+    public void getWeatherInfo(EventCard card, Event event) {
+        returnCard = card;
+
+        new GoGetWeather().execute(event.GetLat(), event.GetLon());
+    }
+
+    public static final String owm_key = "71eaab57b00ccedd9ddf0ec4d16c5d36";
+
 }

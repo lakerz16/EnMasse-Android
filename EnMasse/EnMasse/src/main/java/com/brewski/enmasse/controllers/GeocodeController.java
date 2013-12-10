@@ -1,7 +1,6 @@
 package com.brewski.enmasse.controllers;
 
 import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
 
 import com.brewski.enmasse.activities.EventActivity;
 import com.brewski.enmasse.models.GeoLocation;
@@ -12,7 +11,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

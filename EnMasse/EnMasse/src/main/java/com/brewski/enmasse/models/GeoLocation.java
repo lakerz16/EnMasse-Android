@@ -13,6 +13,7 @@ public class GeoLocation {
     private String lng;
 
     public GeoLocation(JSONObject object) {
+
         try {
             name = object.getString("formatted_address");
             lat = object.getJSONObject("geometry").getJSONObject("location").getString("lat");

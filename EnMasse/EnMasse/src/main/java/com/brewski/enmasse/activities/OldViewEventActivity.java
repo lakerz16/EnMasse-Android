@@ -33,11 +33,11 @@ public class OldViewEventActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_viewevent);
+		//setContentView(R.layout.activity_viewevent);
 
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
 		
-		peopleList = (LinearLayout) findViewById(R.id.peopleList);
+		//peopleList = (LinearLayout) findViewById(R.id.peopleList);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		globals = (Globals) getApplicationContext();
@@ -61,13 +61,13 @@ public class OldViewEventActivity extends Activity {
 	}
 	
 	private void setOwnStatus() {
-		ImageView statusIcon = (ImageView) findViewById(R.id.myStatusIcon);
-		TextView statusText = (TextView) findViewById(R.id.myStatusText);
-		TextView statusDescription = (TextView) findViewById(R.id.myStatusNote);
+		//ImageView statusIcon = (ImageView) findViewById(R.id.myStatusIcon);
+		//TextView statusText = (TextView) findViewById(R.id.myStatusText);
+		//TextView statusDescription = (TextView) findViewById(R.id.myStatusNote);
 		
-		statusIcon.setImageResource(R.drawable.state_blue);
-		statusText.setText("Call Me Maybe");
-		statusDescription.setText("Im thinking about it");
+		//statusIcon.setImageResource(R.drawable.state_blue);
+		//statusText.setText("Call Me Maybe");
+		//statusDescription.setText("Im thinking about it");
 	}
 	
 	private void fillPeopleList(ParseObject ob) {
