@@ -92,7 +92,7 @@ public class Event {
     }
 
     public long GetDateMillis() {
-        return System.currentTimeMillis();
+        return datetime;
     }
 
     public String GetName() {
@@ -147,5 +147,9 @@ public class Event {
         // other stuff
 
         return p;
+    }
+
+    public boolean alreadyHappened() {
+        return System.currentTimeMillis() > GetDateMillis();
     }
 }

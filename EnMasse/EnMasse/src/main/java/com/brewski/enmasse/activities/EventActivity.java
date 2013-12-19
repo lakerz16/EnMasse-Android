@@ -94,6 +94,23 @@ public class EventActivity extends RoboActivity {
             }
         });*/
 
+        editName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + editName.getText().toString() + "</font>"));
+            }
+        });
+
         tempLocation = null;
         editLocation.addTextChangedListener(new TextWatcher() {
             @Override

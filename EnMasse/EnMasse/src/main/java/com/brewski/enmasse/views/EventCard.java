@@ -94,6 +94,10 @@ public class EventCard extends Card {
         location.setText(event.GetLocation());
 
         weather = (ImageView) parent.findViewById(R.id.weather);
+
+        if(event.alreadyHappened()) {
+            parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
+        }
     }
 
     public void UpdateWeather(WeatherReading w) {

@@ -22,6 +22,7 @@ public class WeatherReading {
             JSONArray w = o.getJSONArray("weather");
             JSONObject f = w.getJSONObject(0);
             state = f.getInt("id")/100;
+            //Log.e("Weather State", Integer.toString(state));
         } catch (JSONException e) {
             e.printStackTrace();
         }

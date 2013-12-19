@@ -19,6 +19,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -81,6 +83,30 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
                     for (ParseObject p : (ArrayList<ParseObject>) eventQuery) {
                         globals.events.add(new Event(p));
                     }
+
+                    final Long currentTime = System.currentTimeMillis();
+                    Collections.sort(globals.events, new Comparator<Event>() {
+                        public int compare(Event e1, Event e2) {
+
+                            if(e1.GetDateMillis() > currentTime && e2.GetDateMillis() > currentTime) { // both future
+                                if(e1.GetDateMillis() > e2.GetDateMillis())
+                                    return 1;
+                                return -1; // both future, so smaller one (upcoming) first
+                            }
+
+                            if(e1.GetDateMillis() < currentTime && e2.GetDateMillis() < currentTime) { // both past
+                                if(e1.GetDateMillis() > e2.GetDateMillis())
+                                    return -1;
+                                return 1; // both past, so larger one (just happened) first
+                            }
+
+                            if(e1.GetDateMillis() > e2.GetDateMillis()) {
+                                return -1; // e2 already happened
+                            } else {
+                                return 1; // e1 already happened
+                            }
+                        }
+                    });
 
                     cards.clear();
                     for (Event event : globals.events) {
