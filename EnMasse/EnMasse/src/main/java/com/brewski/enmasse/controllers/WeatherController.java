@@ -8,6 +8,7 @@ import com.brewski.enmasse.activities.EventActivity;
 import com.brewski.enmasse.models.Event;
 import com.brewski.enmasse.models.GeoLocation;
 import com.brewski.enmasse.models.WeatherReading;
+import com.brewski.enmasse.util.Utilities;
 import com.brewski.enmasse.views.EventCard;
 
 import org.apache.http.HttpEntity;
@@ -29,7 +30,21 @@ import java.util.Random;
  */
 public class WeatherController {
 
+    EventCard returnCard;
+    public static final String owm_key = "71eaab57b00ccedd9ddf0ec4d16c5d36";
+
     public WeatherController() {
+    }
+
+    public void getWeatherInfo(EventCard card, Event event) {
+
+        if(!Utilities.ShouldCheckWeather(event)) {
+            return;
+        }
+
+        returnCard = card;
+
+        new GoGetWeather().execute(event.GetLat(), event.GetLon());
     }
 
     private class GoGetWeather extends AsyncTask<String, String, String> {
@@ -38,7 +53,20 @@ public class WeatherController {
 
         protected String doInBackground(String... params) {
 
-            HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/weather?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
+            StringBuilder request = new StringBuilder();
+            request.append("http://api.openweathermap.org/data/2.5/forecast?lat=");
+            request.append(params[0]);
+            request.append("&lon=");
+            request.append(params[1]);
+            request.append("&APPID=");
+            request.append(owm_key);
+
+            //HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/weather?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
+            //HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/forecast?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
+            HttpGet httpGet = new HttpGet(request.toString());
+
+            Log.e("Http", request.toString());
+
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
             StringBuilder stringBuilder = new StringBuilder();
@@ -55,14 +83,16 @@ public class WeatherController {
             } catch (IOException e) {
             }
 
-            JSONObject jsonObject = new JSONObject();
+            /*JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject = new JSONObject(stringBuilder.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            return jsonObject.toString();
+            //return jsonObject.toString();
+
+            return stringBuilder.toString();
         }
 
         protected void onPostExecute(String res) {
@@ -70,15 +100,5 @@ public class WeatherController {
             returnCard.UpdateWeather(weather);
         }
     }
-
-    EventCard returnCard;
-
-    public void getWeatherInfo(EventCard card, Event event) {
-        returnCard = card;
-
-        new GoGetWeather().execute(event.GetLat(), event.GetLon());
-    }
-
-    public static final String owm_key = "71eaab57b00ccedd9ddf0ec4d16c5d36";
 
 }

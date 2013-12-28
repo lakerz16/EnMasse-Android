@@ -1,9 +1,15 @@
 package com.brewski.enmasse.util;
 
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.brewski.enmasse.models.Event;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by matt on 11/13/13.
@@ -54,6 +60,44 @@ public class Utilities {
             picker.setCurrentHour(hour);
             picker.setCurrentMinute(min);
         }
+    }
+
+    public static void SortEventsList(ArrayList<Event> events) {
+        final Long currentTime = System.currentTimeMillis();
+        Collections.sort(events, new Comparator<Event>() {
+            public int compare(Event e1, Event e2) {
+
+                if (e1.GetDateMillis() > currentTime && e2.GetDateMillis() > currentTime) { // both future
+                    if (e1.GetDateMillis() > e2.GetDateMillis())
+                        return 1;
+                    return -1;
+                }
+
+                if (e1.GetDateMillis() < currentTime && e2.GetDateMillis() < currentTime) { // both past
+                    if (e1.GetDateMillis() > e2.GetDateMillis())
+                        return -1;
+                    return 1;
+                }
+
+                if (e1.GetDateMillis() < e2.GetDateMillis()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+    }
+
+    public static boolean ShouldCheckWeather(Event e) {
+
+        long diff = e.GetDateMillis() - System.currentTimeMillis();
+
+        if(diff < 0 || diff > 432000000) // event must be 0-5 days away
+            return false;
+
+        Log.e(Long.toString(e.GetDateMillis()), Long.toString(diff));
+
+        return true;
     }
 
 }

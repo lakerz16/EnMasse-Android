@@ -8,14 +8,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Created by matt on 12/9/13.
  */
 public class WeatherReading {
 
-    private int state;
+    JSONArray forecastList = null;
 
     public WeatherReading(String json) {
+        try {
+            JSONObject foo = new JSONObject(json);
+
+            //Log.e("Foo", foo.getJSONObject("city").toString());
+
+            forecastList = new JSONObject(json).getJSONArray("list");
+        } catch (JSONException e) {
+
+        }
+    }
+
+    /*public WeatherReading(String json) {
 
         try {
             JSONObject o = new JSONObject(json);
@@ -27,10 +41,17 @@ public class WeatherReading {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public int GetWeatherResource() {
-        switch(state) {
+    public int GetWeatherResource(long dateMillis) {
+
+        if(forecastList == null) {
+            return R.drawable.weather_sunny;
+        }
+
+        JSONObject eventWeather = getClosestWeatherObject(dateMillis);
+
+        switch(getWeatherState(eventWeather)) {
             case WEATHER_NONE:
                 return 0;
             //case WEATHER_CLOUDY:
@@ -54,15 +75,54 @@ public class WeatherReading {
         }
     }
 
-    //public static final int WEATHER_NONE = 0;
-    //public static final int WEATHER_CLOUDY = 1;
-    //public static final int WEATHER_DRIZZLE = 2;
-    //public static final int WEATHER_HAZE = 3;
-    //public static final int WEATHER_MOSTLYCLOUDY = 4;
-    //public static final int WEATHER_RAIN = 5;
-    //public static final int WEATHER_SNOW = 6;
-    //public static final int WEATHER_SUNNY = 7;
-    //public static final int WEATHER_THUNDERSTORMS = 8;
+    private int getWeatherState(JSONObject o) {
+        int state = 0;
+        try {
+            JSONArray w = o.getJSONArray("weather");
+            JSONObject f = w.getJSONObject(0);
+            state = f.getInt("id")/100;
+            Log.e("Weather State", Integer.toString(state));
+            return state;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return state;
+    }
+
+    private JSONObject getClosestWeatherObject(long dateMillis) {
+
+        try {
+
+            for(int i=0; i<forecastList.length(); i++) {
+
+                if(dateMillis <= forecastList.getJSONObject(i).getLong("dt")*1000) {
+                    Log.e("Event Time", new Date(dateMillis).toLocaleString().toString());
+                    Log.e("Weather Time", forecastList.getJSONObject(i).getString("dt_txt"));
+                    return forecastList.getJSONObject(0);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public String GetTemperature(long dateMillis) {
+
+        JSONObject eventWeather = getClosestWeatherObject(dateMillis);
+
+        try {
+            JSONObject main = eventWeather.getJSONObject("main");
+            double kelvin = main.getDouble("temp");
+            return Integer.toString( (int) ((kelvin - 273.15) * 1.8 + 32) );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 
     // OWM Mappings
     public static final int WEATHER_NONE = 0;
@@ -70,5 +130,4 @@ public class WeatherReading {
     public static final int WEATHER_DRIZZLE = 3;
     public static final int WEATHER_RAIN = 5;
     public static final int WEATHER_SNOW = 6;
-
 }

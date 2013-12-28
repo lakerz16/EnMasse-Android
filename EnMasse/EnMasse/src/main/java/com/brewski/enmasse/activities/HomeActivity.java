@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.brewski.enmasse.R;
 import com.brewski.enmasse.models.Event;
+import com.brewski.enmasse.util.Utilities;
 import com.brewski.enmasse.views.EventCard;
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -84,29 +85,7 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
                         globals.events.add(new Event(p));
                     }
 
-                    final Long currentTime = System.currentTimeMillis();
-                    Collections.sort(globals.events, new Comparator<Event>() {
-                        public int compare(Event e1, Event e2) {
-
-                            if(e1.GetDateMillis() > currentTime && e2.GetDateMillis() > currentTime) { // both future
-                                if(e1.GetDateMillis() > e2.GetDateMillis())
-                                    return 1;
-                                return -1; // both future, so smaller one (upcoming) first
-                            }
-
-                            if(e1.GetDateMillis() < currentTime && e2.GetDateMillis() < currentTime) { // both past
-                                if(e1.GetDateMillis() > e2.GetDateMillis())
-                                    return -1;
-                                return 1; // both past, so larger one (just happened) first
-                            }
-
-                            if(e1.GetDateMillis() > e2.GetDateMillis()) {
-                                return -1; // e2 already happened
-                            } else {
-                                return 1; // e1 already happened
-                            }
-                        }
-                    });
+                    Utilities.SortEventsList(globals.events);
 
                     cards.clear();
                     for (Event event : globals.events) {

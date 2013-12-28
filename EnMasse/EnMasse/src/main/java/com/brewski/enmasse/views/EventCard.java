@@ -64,7 +64,12 @@ public class EventCard extends Card {
         context.startActivity(new Intent(context, EventActivity.class));
     }
 
+    private static int color_going = 0xff99cc00;
+    private static int color_notgoing = 0xffffbb33;
+    private static int color_undecided = 0xffbbbbbb;
+
     ImageView weather;
+    TextView temperature;
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -72,6 +77,13 @@ public class EventCard extends Card {
         foo.setText(event.GetName());
 
         PieGraph pie = (PieGraph) parent.findViewById(R.id.graph);
+
+        PieSlice undecided = new PieSlice();
+        undecided.setColor(color_undecided);
+        undecided.setValue(1);
+        pie.addSlice(undecided);
+
+        /*
         PieSlice slice = new PieSlice();
         slice.setColor(Color.parseColor("#99CC00"));
         slice.setValue(2);
@@ -84,6 +96,7 @@ public class EventCard extends Card {
         slice.setColor(Color.parseColor("#AA66CC"));
         slice.setValue(event.GetNumberGoing());
         pie.addSlice(slice);
+        */
 
         pie.setThickness(12);
 
@@ -94,6 +107,7 @@ public class EventCard extends Card {
         location.setText(event.GetLocation());
 
         weather = (ImageView) parent.findViewById(R.id.weather);
+        temperature = (TextView) parent.findViewById(R.id.temperature);
 
         if(event.alreadyHappened()) {
             parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
@@ -106,6 +120,7 @@ public class EventCard extends Card {
         if(event.GetWeather() == null)
             return;
 
-        weather.setImageResource(event.GetWeather().GetWeatherResource());
+        weather.setImageResource(event.GetWeather().GetWeatherResource(event.GetDateMillis()));
+        temperature.setText(event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
     }
 }
