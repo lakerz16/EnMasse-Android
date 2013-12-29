@@ -5,7 +5,6 @@
     <string name="foo_name">Grail</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
     <string name="menu_settings">Settings</string>
     <string name="menu_addEvent">Add Event</string>
     <string name="menu_addPerson">Add Person</string>
@@ -13,33 +12,28 @@
     <string name="menu_showMap">Show on Map</string>
     <string name="menu_eventSettings">Event Settings</string>
     <string name="menu_buildDone">Done</string>
-
     <string name="event_name">Event Name</string>
     <string name="event_location">Event Location</string>
+    <string name="menu_changeProfile">Profile</string>
 
     <color name="label_gray">#ff666666</color>
-
     <color name="list1t">#FFE2A746</color>
     <color name="list1b">#FFC48E40</color>
-
     <color name="list2t">#FF60BD8A</color>
     <color name="list2b">#FF4EA171</color>
-
     <color name="list3t">#FF18A1B0</color>
     <color name="list3b">#FF118894</color>
-
     <color name="list4t">#FF6169A7</color>
     <color name="list4b">#FF53528B</color>
-
     <color name="list5t">#FF973B96</color>
     <color name="list5b">#FF773971</color>
-
     <color name="list6t">#FF70706E</color>
     <color name="list6b">#FF515456</color>
-
     <color name="nav_top">#FF5CD2CA</color>
     <color name="nav_bottom">#FF4CBFB1</color>
     <color name="nav_middle">#FF56C9BF</color>
     <color name="nav_gray">#FF3D3E40</color>
+
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

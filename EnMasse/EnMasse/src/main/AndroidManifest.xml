@@ -12,13 +12,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".activities.Globals"
+        android:name="com.brewski.enmasse.activities.Globals"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/my_app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activities.HomeActivity"
+            android:name="com.brewski.enmasse.activities.HomeActivity"
             android:label="@string/foo_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,8 +26,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.EventActivity" android:parentActivityName="com.brewski.enmasse.activities.HomeActivity"/>
-        <activity android:name=".activities.OldViewEventActivity" />
+        <activity
+            android:name="com.brewski.enmasse.activities.EventActivity"
+            android:parentActivityName="com.brewski.enmasse.activities.HomeActivity" />
+        <activity android:name="com.brewski.enmasse.activities.OldViewEventActivity" />
+        <activity
+            android:name="com.brewski.enmasse.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
     </application>
 
 </manifest>

@@ -70,6 +70,7 @@ public class EventCard extends Card {
 
     ImageView weather;
     TextView temperature;
+    TextView weatherCode;
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -108,6 +109,7 @@ public class EventCard extends Card {
 
         weather = (ImageView) parent.findViewById(R.id.weather);
         temperature = (TextView) parent.findViewById(R.id.temperature);
+        weatherCode = (TextView) parent.findViewById(R.id.weather_code);
 
         if(event.alreadyHappened()) {
             parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
@@ -121,6 +123,7 @@ public class EventCard extends Card {
             return;
 
         weather.setImageResource(event.GetWeather().GetWeatherResource(event.GetDateMillis()));
-        temperature.setText(event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
+        temperature.setText( " " + event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
+        weatherCode.setText(Integer.toString(event.GetWeather().GetDebugWeatherCode(event.GetDateMillis())));
     }
 }

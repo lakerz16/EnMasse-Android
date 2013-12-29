@@ -1,9 +1,13 @@
 package com.brewski.enmasse.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.brewski.enmasse.activities.Globals;
+import com.brewski.enmasse.models.DeveloperProfile;
 import com.brewski.enmasse.models.Event;
 
 import java.util.ArrayList;
@@ -15,6 +19,27 @@ import java.util.Comparator;
  * Created by matt on 11/13/13.
  */
 public class Utilities {
+
+    public static void SetDeveloperProfile(Context context, DeveloperProfile profile) {
+        SharedPreferences prefs = context.getSharedPreferences("developer", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("user", profile.getName());
+        edit.putString("userId", profile.getObjectId());
+        edit.commit();
+
+        ((Globals)context.getApplicationContext()).profile = profile;
+    }
+
+    public static DeveloperProfile GetSavedDeveloperProfile(Context context) {
+        String user = context.getSharedPreferences("developer", Context.MODE_PRIVATE).getString("user", "");
+        String id = context.getSharedPreferences("developer", Context.MODE_PRIVATE).getString("userId", "");
+
+        if(user.equals("") || id.equals("")) {
+            return new DeveloperProfile("NA", "NA");
+        }
+
+        return new DeveloperProfile(user, id);
+    }
 
     public static void SetDatePicker(DatePicker picker, String serial) {
 

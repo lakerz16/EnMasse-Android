@@ -51,20 +51,20 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
         Parse.initialize(this, "JE0GEpwICTvpddKlUgJqLEg43RcZHVnf5m6axFcI", "X0lk48cz0wYu3eE8jbZo3koN64xgrp1kZS9HL2Lo");
         ParseAnalytics.trackAppOpened(getIntent());
 
-        getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>Grail</font>"));
-
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_Layout);
         ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
 
-        // http://api.openweathermap.org/data/2.5/find?q=Fairfax%20VA&mode=json
+        globals.profile = Utilities.GetSavedDeveloperProfile(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        getActionBar().setDisplayUseLogoEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + globals.profile.getName() + "</font>"));
 
         refreshEventsList();
     }
@@ -123,6 +123,9 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
                 globals.events.add(newEvent);
                 globals.event = newEvent;
                 startActivity(new Intent(this, EventActivity.class));
+                break;
+            case R.id.menu_changeProfile:
+                startActivity(new Intent(this, ProfileActivity.class));
                 break;
             default:
                 break;

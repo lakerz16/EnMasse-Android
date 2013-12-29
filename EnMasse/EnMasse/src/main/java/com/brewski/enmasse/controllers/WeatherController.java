@@ -61,12 +61,7 @@ public class WeatherController {
             request.append("&APPID=");
             request.append(owm_key);
 
-            //HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/weather?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
-            //HttpGet httpGet = new HttpGet("http://api.openweathermap.org/data/2.5/forecast?lat=" + params[0] + "&lon=" + params[1] + "&APPID=" + owm_key);
             HttpGet httpGet = new HttpGet(request.toString());
-
-            Log.e("Http", request.toString());
-
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;
             StringBuilder stringBuilder = new StringBuilder();
@@ -82,15 +77,6 @@ public class WeatherController {
             } catch (ClientProtocolException e) {
             } catch (IOException e) {
             }
-
-            /*JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject = new JSONObject(stringBuilder.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-
-            //return jsonObject.toString();
 
             return stringBuilder.toString();
         }

@@ -89,6 +89,21 @@ public class WeatherReading {
         return state;
     }
 
+    public int GetDebugWeatherCode(long dateMillis) {
+
+        JSONObject eventWeather = getClosestWeatherObject(dateMillis);
+
+        int state = -1;
+        try {
+            JSONArray w = eventWeather.getJSONArray("weather");
+            JSONObject f = w.getJSONObject(0);
+            return f.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return state;
+    }
+
     private JSONObject getClosestWeatherObject(long dateMillis) {
 
         try {
@@ -116,7 +131,7 @@ public class WeatherReading {
         try {
             JSONObject main = eventWeather.getJSONObject("main");
             double kelvin = main.getDouble("temp");
-            return Integer.toString( (int) ((kelvin - 273.15) * 1.8 + 32) );
+            return Integer.toString((int) ((kelvin - 273.15) * 1.8 + 32));
         } catch (JSONException e) {
             e.printStackTrace();
         }
