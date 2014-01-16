@@ -3,6 +3,8 @@ package com.brewski.enmasse.views;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,10 @@ import com.brewski.enmasse.R;
 import com.brewski.enmasse.activities.EventActivity;
 import com.brewski.enmasse.activities.Globals;
 import com.brewski.enmasse.activities.OldViewEventActivity;
+import com.brewski.enmasse.controllers.ForecastIOController;
 import com.brewski.enmasse.controllers.WeatherController;
 import com.brewski.enmasse.models.Event;
+import com.brewski.enmasse.models.ForecastIOReading;
 import com.brewski.enmasse.models.WeatherReading;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
@@ -53,8 +57,11 @@ public class EventCard extends Card {
 
         // call for a weather update
         if(event.HasCoordinates()) {
-            WeatherController weatherController = new WeatherController();
-            weatherController.getWeatherInfo(this, event);
+            //WeatherController weatherController = new WeatherController();
+            //weatherController.getWeatherInfo(this, event);
+
+            ForecastIOController forecastIOController = new ForecastIOController();
+            forecastIOController.getWeatherInfo(this, event);
         }
     }
 
@@ -69,6 +76,7 @@ public class EventCard extends Card {
     private static int color_undecided = 0xffbbbbbb;
 
     ImageView weather;
+    TextView weather_text;
     TextView temperature;
     TextView weatherCode;
     @Override
@@ -79,27 +87,27 @@ public class EventCard extends Card {
 
         PieGraph pie = (PieGraph) parent.findViewById(R.id.graph);
 
-        PieSlice undecided = new PieSlice();
-        undecided.setColor(color_undecided);
-        undecided.setValue(1);
-        pie.addSlice(undecided);
-
-        /*
         PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#99CC00"));
-        slice.setValue(2);
-        pie.addSlice(slice);
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#FFBB33"));
+        slice.setColor(context.getResources().getColor(R.color.status_no));
         slice.setValue(3);
         pie.addSlice(slice);
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#AA66CC"));
-        slice.setValue(event.GetNumberGoing());
-        pie.addSlice(slice);
-        */
 
-        pie.setThickness(12);
+        slice = new PieSlice();
+        slice.setColor(context.getResources().getColor(R.color.status_undecided));
+        slice.setValue(2);
+        pie.addSlice(slice);
+
+        slice = new PieSlice();
+        slice.setColor(context.getResources().getColor(R.color.status_maybe));
+        slice.setValue(3);
+        pie.addSlice(slice);
+
+        slice = new PieSlice();
+        slice.setColor(context.getResources().getColor(R.color.status_going));
+        slice.setValue(5);
+        pie.addSlice(slice);
+
+        pie.setThickness(22);
 
         TextView date = (TextView) parent.findViewById(R.id.event_date);
         date.setText(event.GetDateTime());
@@ -110,6 +118,8 @@ public class EventCard extends Card {
         weather = (ImageView) parent.findViewById(R.id.weather);
         temperature = (TextView) parent.findViewById(R.id.temperature);
         weatherCode = (TextView) parent.findViewById(R.id.weather_code);
+
+        weather_text = (TextView) parent.findViewById(R.id.weather_text);
 
         if(event.alreadyHappened()) {
             parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
@@ -125,5 +135,20 @@ public class EventCard extends Card {
         weather.setImageResource(event.GetWeather().GetWeatherResource(event.GetDateMillis()));
         temperature.setText( " " + event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
         weatherCode.setText(Integer.toString(event.GetWeather().GetDebugWeatherCode(event.GetDateMillis())));
+    }
+
+    public void UpdateWeather(ForecastIOReading r) {
+        event.SetForecastIO(r);
+
+        if(event.GetForecastIO() == null)
+            return;
+
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "Climacons.ttf");
+        weather_text.setTypeface(myTypeface);
+
+        //weather_text.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890`~!@#$%^&*()-_=+[]{}<>,./?");
+        weather_text.setText(event.GetForecastIO().getWeatherResource());
+        temperature.setText( " " + event.GetForecastIO().getTemperature() + (char) 0x00B0);
+        weatherCode.setText(event.GetForecastIO().getPrecipitationChance());
     }
 }

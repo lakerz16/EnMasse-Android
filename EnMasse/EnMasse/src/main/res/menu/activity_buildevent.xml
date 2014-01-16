@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_showMap"
+        android:icon="@drawable/ic_action_directions"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_showMap"/>
+
+    <item
         android:id="@+id/menu_buildDone"
         android:icon="@drawable/ic_action_accept_dark"
         android:showAsAction="ifRoom"

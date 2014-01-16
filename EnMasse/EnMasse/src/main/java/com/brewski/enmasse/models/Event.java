@@ -24,6 +24,7 @@ public class Event {
     private long datetime = 0;
 
     private WeatherReading weather;
+    private ForecastIOReading forecastIO;
 
     public Event() {
         people = new ArrayList<Person>();
@@ -80,6 +81,10 @@ public class Event {
         this.weather = weather;
     }
 
+    public void SetForecastIO(ForecastIOReading r) {
+        this.forecastIO = r;
+    }
+
     public String GetDateTime() {
 
         if(datetime == 0)
@@ -93,6 +98,10 @@ public class Event {
 
     public long GetDateMillis() {
         return datetime;
+    }
+
+    public long GetDateSeconds() {
+        return datetime/1000;
     }
 
     public String GetName() {
@@ -130,6 +139,10 @@ public class Event {
 
     public WeatherReading GetWeather() {
         return weather;
+    }
+
+    public ForecastIOReading GetForecastIO() {
+        return forecastIO;
     }
 
     public ParseObject AsParseObject() {

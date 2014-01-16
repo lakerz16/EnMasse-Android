@@ -19,29 +19,11 @@ public class WeatherReading {
 
     public WeatherReading(String json) {
         try {
-            JSONObject foo = new JSONObject(json);
-
-            //Log.e("Foo", foo.getJSONObject("city").toString());
-
             forecastList = new JSONObject(json).getJSONArray("list");
         } catch (JSONException e) {
 
         }
     }
-
-    /*public WeatherReading(String json) {
-
-        try {
-            JSONObject o = new JSONObject(json);
-            JSONArray w = o.getJSONArray("weather");
-            JSONObject f = w.getJSONObject(0);
-            state = f.getInt("id")/100;
-            //Log.e("Weather State", Integer.toString(state));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }*/
 
     public int GetWeatherResource(long dateMillis) {
 

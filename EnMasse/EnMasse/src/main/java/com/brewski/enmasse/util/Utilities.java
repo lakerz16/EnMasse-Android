@@ -27,14 +27,14 @@ public class Utilities {
         edit.putString("userId", profile.getObjectId());
         edit.commit();
 
-        ((Globals)context.getApplicationContext()).profile = profile;
+        ((Globals) context.getApplicationContext()).profile = profile;
     }
 
     public static DeveloperProfile GetSavedDeveloperProfile(Context context) {
         String user = context.getSharedPreferences("developer", Context.MODE_PRIVATE).getString("user", "");
         String id = context.getSharedPreferences("developer", Context.MODE_PRIVATE).getString("userId", "");
 
-        if(user.equals("") || id.equals("")) {
+        if (user.equals("") || id.equals("")) {
             return new DeveloperProfile("NA", "NA");
         }
 
@@ -54,11 +54,11 @@ public class Utilities {
             picker.updateDate(year, month, day);
 
         } catch (Exception e) {
-            Calendar cal=Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
 
-            int year=cal.get(Calendar.YEAR);
-            int month=cal.get(Calendar.MONTH);
-            int day=cal.get(Calendar.DAY_OF_MONTH);
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
 
             picker.updateDate(year, month, day);
         }
@@ -77,7 +77,7 @@ public class Utilities {
             picker.setCurrentMinute(min);
 
         } catch (Exception e) {
-            Calendar cal=Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
 
             int hour = cal.get(Calendar.HOUR);
             int min = cal.get(Calendar.MINUTE);
@@ -117,12 +117,44 @@ public class Utilities {
 
         long diff = e.GetDateMillis() - System.currentTimeMillis();
 
-        if(diff < 0 || diff > 432000000) // event must be 0-5 days away
+        if (diff < 0 || diff > 432000000) // event must be 0-5 days away
             return false;
 
         Log.e(Long.toString(e.GetDateMillis()), Long.toString(diff));
 
         return true;
+    }
+
+    public static String climaconsMapping(String weather) {
+        if (weather.equals("rain")) {
+            return "$";
+        } else if (weather.equals("clear-day")) {
+            return "I";
+        } else if (weather.equals("clear-night")) {
+            return "N";
+        } else if (weather.equals("snow")) {
+            return "9";
+        } else if (weather.equals("sleet")) {
+            return "0";
+        } else if (weather.equals("wind")) {
+            return "B";
+        } else if (weather.equals("fog")) {
+            return "<";
+        } else if (weather.equals("cloudy")) {
+            return "!";
+        } else if (weather.equals("partly-cloudy-day")) {
+            return "!";
+        } else if (weather.equals("partly-cloudy-night")) {
+            return "#";
+        } else if (weather.equals("hail")) {
+            return "3";
+        } else if (weather.equals("thunderstorm")) {
+            return "F";
+        } else if (weather.equals("tornado")) {
+            return "X";
+        }
+
+        return "?";
     }
 
 }

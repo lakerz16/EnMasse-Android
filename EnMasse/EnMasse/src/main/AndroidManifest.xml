@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.brewski.enmasse.activities.HomeActivity"
-            android:label="@string/foo_name" >
+            android:label="@string/my_app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

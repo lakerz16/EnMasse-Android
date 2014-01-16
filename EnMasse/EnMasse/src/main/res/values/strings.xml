@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="my_app_name">EnMasse</string>
-    <string name="foo_name">Grail</string>
+    <string name="my_app_name">Yoshi</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -32,8 +31,14 @@
     <color name="nav_top">#FF5CD2CA</color>
     <color name="nav_bottom">#FF4CBFB1</color>
     <color name="nav_middle">#FF56C9BF</color>
+    <color name="foo">#ff30C1BE</color>
     <color name="nav_gray">#FF3D3E40</color>
 
     <string name="title_activity_profile">ProfileActivity</string>
+
+    <color name="status_going">#ff51B46D</color>
+    <color name="status_maybe">#ff53BBB4</color>
+    <color name="status_undecided">#ffB7C0C7</color>
+    <color name="status_no">#ffE47176</color>
 
 </resources>
