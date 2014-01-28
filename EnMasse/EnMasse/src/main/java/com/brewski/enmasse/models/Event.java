@@ -47,6 +47,16 @@ public class Event {
             datetime = event.getLong("date");
         }
 
+        if (event.has("weather")) {
+
+            long lastUpdated = 0;
+            if(event.has("weatherUpdated")) {
+                lastUpdated = Long.parseLong(event.getString("weatherUpdated"));
+            }
+
+            forecastIO = new ForecastIOReading(event.getString("weather"), lastUpdated);
+        }
+
         people = new ArrayList<Person>();
 
         //TODO parse people list
@@ -54,6 +64,10 @@ public class Event {
 
     public void Save() {
         AsParseObject().saveInBackground();
+    }
+
+    private void saveWeather() {
+        AsParseWeatherObject().saveInBackground();
     }
 
     public void SetName(String n) {
@@ -83,6 +97,11 @@ public class Event {
 
     public void SetForecastIO(ForecastIOReading r) {
         this.forecastIO = r;
+
+        if(forecastIO == null)
+            return;
+
+        saveWeather();
     }
 
     public String GetDateTime() {
@@ -162,7 +181,46 @@ public class Event {
         return p;
     }
 
+    public ParseObject AsParseWeatherObject() {
+        ParseObject p = new ParseObject("Events");
+
+        if (!objectId.equals("")) {
+            p.setObjectId(objectId);
+        }
+
+        p.put("weather", forecastIO.current.toString());
+        p.put("weatherUpdated", Long.toString(forecastIO.getTimeLastUpdated()));
+
+        return p;
+    }
+
     public boolean alreadyHappened() {
         return System.currentTimeMillis() > GetDateMillis();
     }
+
+    public boolean shouldRequestWeatherUpdate() {
+
+        // get weather lastUpdated
+        long time = forecastIO.getTimeLastUpdated();
+
+        // compare it to event time
+        if(time > this.GetDateMillis()) {
+            Log.e(this.GetName(), "Past Event");
+            return false;
+        }
+
+
+
+
+        // how long
+
+
+        return false;
+    }
+
+    private static long duration_3_days = 300000;
+    private static long duration_1_day = 300000;
+    private static long duration_4_hours = 3000;
+    private static long duration_30_minutes = 300;
+
 }

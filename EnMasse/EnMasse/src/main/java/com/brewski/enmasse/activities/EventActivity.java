@@ -314,7 +314,7 @@ public class EventActivity extends RoboActivity {
                 if(currentEvent.GetLocation().equals(ParseController.NullLocation)) {
                     break;
                 }
-                
+
                 String uri = "geo:0,0?q=" + currentEvent.GetLocation();
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                 //intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");

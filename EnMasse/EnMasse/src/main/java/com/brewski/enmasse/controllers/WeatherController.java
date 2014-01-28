@@ -83,7 +83,7 @@ public class WeatherController {
 
         protected void onPostExecute(String res) {
             WeatherReading weather = new WeatherReading(res);
-            returnCard.UpdateWeather(weather);
+            //returnCard.UpdateWeather(weather);
         }
     }
 

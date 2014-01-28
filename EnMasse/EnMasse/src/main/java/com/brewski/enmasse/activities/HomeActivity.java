@@ -1,7 +1,6 @@
 package com.brewski.enmasse.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -20,8 +19,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -62,15 +59,36 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
     public void onResume() {
         super.onResume();
 
-        getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + globals.profile.getName() + "</font>"));
+        if(globals.developerMode) { // <DebugMode>
+            /*
+            getActionBar().setDisplayShowTitleEnabled(false);
+            getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+            ArrayList<String> itemList = new ArrayList<String>();
+            itemList.add("Section 1");
+            itemList.add("Section 2");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList);
+            getActionBar().setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+                @Override
+                public boolean onNavigationItemSelected(int i, long l) {
+                    return true;
+                }
+            });
+            */
+
+            getActionBar().setDisplayUseLogoEnabled(true);
+            getActionBar().setDisplayShowTitleEnabled(true);
+            getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + globals.profile.getName() + "</font>"));
+
+        } else { // <RegularMode>
+
+        }
 
         refreshEventsList();
     }
 
-    int[] listBacks = {R.drawable.list1, R.drawable.list2, R.drawable.list3, R.drawable.list4, R.drawable.list5, R.drawable.list6};
-    int[] listColors = {R.color.list1t, R.color.list2t, R.color.list3t, R.color.list4t, R.color.list5t, R.color.list6t};
+    //int[] listBacks = {R.drawable.list1, R.drawable.list2, R.drawable.list3, R.drawable.list4, R.drawable.list5, R.drawable.list6};
+    //int[] listColors = {R.color.list1t, R.color.list2t, R.color.list3t, R.color.list4t, R.color.list5t, R.color.list6t};
 
     private void refreshEventsList() {
 

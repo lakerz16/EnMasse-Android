@@ -23,6 +23,8 @@ import com.brewski.enmasse.models.WeatherReading;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 
+import java.util.Random;
+
 import it.gmariotti.cardslib.library.internal.Card;
 
 /**
@@ -56,7 +58,7 @@ public class EventCard extends Card {
         });
 
         // call for a weather update
-        if(event.HasCoordinates()) {
+        if(event.HasCoordinates() && event.shouldRequestWeatherUpdate()) {
             //WeatherController weatherController = new WeatherController();
             //weatherController.getWeatherInfo(this, event);
 
@@ -78,7 +80,7 @@ public class EventCard extends Card {
     ImageView weather;
     TextView weather_text;
     TextView temperature;
-    TextView weatherCode;
+    //TextView weatherCode;
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -87,24 +89,28 @@ public class EventCard extends Card {
 
         PieGraph pie = (PieGraph) parent.findViewById(R.id.graph);
 
+        pie.removeSlices();
+
+        Random r = new Random();
+
         PieSlice slice = new PieSlice();
         slice.setColor(context.getResources().getColor(R.color.status_no));
-        slice.setValue(3);
+        slice.setValue(r.nextInt(4)+1);
         pie.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(context.getResources().getColor(R.color.status_undecided));
-        slice.setValue(2);
+        slice.setValue(r.nextInt(4)+1);
         pie.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(context.getResources().getColor(R.color.status_maybe));
-        slice.setValue(3);
+        slice.setValue(r.nextInt(4)+1);
         pie.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(context.getResources().getColor(R.color.status_going));
-        slice.setValue(5);
+        slice.setValue(r.nextInt(4)+1);
         pie.addSlice(slice);
 
         pie.setThickness(22);
@@ -117,16 +123,18 @@ public class EventCard extends Card {
 
         weather = (ImageView) parent.findViewById(R.id.weather);
         temperature = (TextView) parent.findViewById(R.id.temperature);
-        weatherCode = (TextView) parent.findViewById(R.id.weather_code);
+        //weatherCode = (TextView) parent.findViewById(R.id.weather_code);
 
         weather_text = (TextView) parent.findViewById(R.id.weather_text);
 
         if(event.alreadyHappened()) {
             parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
         }
+
+        UpdateWeather(event.GetForecastIO());
     }
 
-    public void UpdateWeather(WeatherReading w) {
+    /*public void UpdateWeather(WeatherReading w) {
         event.SetWeather(w);
 
         if(event.GetWeather() == null)
@@ -135,20 +143,23 @@ public class EventCard extends Card {
         weather.setImageResource(event.GetWeather().GetWeatherResource(event.GetDateMillis()));
         temperature.setText( " " + event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
         weatherCode.setText(Integer.toString(event.GetWeather().GetDebugWeatherCode(event.GetDateMillis())));
-    }
+    }*/
 
     public void UpdateWeather(ForecastIOReading r) {
+
         event.SetForecastIO(r);
 
         if(event.GetForecastIO() == null)
             return;
 
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "Climacons.ttf");
-        weather_text.setTypeface(myTypeface);
+        if(weather_text == null)
+            return; // Not currently in view
+
+        weather_text.setTypeface(((Globals)context.getApplicationContext()).getWeatherTypeface());
 
         //weather_text.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890`~!@#$%^&*()-_=+[]{}<>,./?");
         weather_text.setText(event.GetForecastIO().getWeatherResource());
         temperature.setText( " " + event.GetForecastIO().getTemperature() + (char) 0x00B0);
-        weatherCode.setText(event.GetForecastIO().getPrecipitationChance());
+        //weatherCode.setText(event.GetForecastIO().getPrecipitationChance());
     }
 }

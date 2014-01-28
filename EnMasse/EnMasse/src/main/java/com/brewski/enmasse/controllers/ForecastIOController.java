@@ -46,6 +46,8 @@ public class ForecastIOController {
             String request = String.format("https://api.forecast.io/forecast/%s/%s,%s,%s",
                     key,params[0],params[1],params[2]);
 
+            //Log.e("Request", request);
+
             HttpGet httpGet = new HttpGet(request);
             HttpClient client = new DefaultHttpClient();
             HttpResponse response;

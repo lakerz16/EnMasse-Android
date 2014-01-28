@@ -12,16 +12,29 @@ import org.json.JSONObject;
 public class ForecastIOReading {
 
     JSONObject current;
+    long lastUpdated;
 
     public ForecastIOReading(String json) {
         try {
-            JSONObject o = new JSONObject(json);
-
-            current = o.getJSONObject("currently");
+            current = new JSONObject(json).getJSONObject("currently");
+            lastUpdated = System.currentTimeMillis();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public ForecastIOReading(String json, long lastUpdated) {
+        try {
+            current = new JSONObject(json);
+            this.lastUpdated = lastUpdated;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public long getTimeLastUpdated() {
+        return lastUpdated;
     }
 
     public String getWeatherResource() {
