@@ -200,27 +200,44 @@ public class Event {
 
     public boolean shouldRequestWeatherUpdate() {
 
-        // get weather lastUpdated
-        long time = forecastIO.getTimeLastUpdated();
-
         // compare it to event time
-        if(time > this.GetDateMillis()) {
+        if(forecastIO.getTimeLastUpdated() > this.GetDateMillis()) {
             Log.e(this.GetName(), "Past Event");
             return false;
         }
 
+        if(System.currentTimeMillis() > GetDateMillis()) {
+            Log.e(this.GetName(), "Past Event, updating once");
+            return true; // past event, update it once
+        }
 
+        long timeToEvent = GetDateMillis() - System.currentTimeMillis();
+        long timeSinceLastUpdate = System.currentTimeMillis() - forecastIO.getTimeLastUpdated();
 
+        if(timeSinceLastUpdate < 0) {
+            try {
+                throw new Exception("Timezone weirdness");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        // how long
+        if(timeToEvent > duration_3_days && timeSinceLastUpdate > duration_4_hours) {
+            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
+            return true;
+        }
 
+        if(timeToEvent < duration_3_days && timeSinceLastUpdate > duration_30_minutes) {
+            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
+            return true;
+        }
 
+        Log.e(this.GetName(), "Not Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
         return false;
     }
 
-    private static long duration_3_days = 300000;
-    private static long duration_1_day = 300000;
-    private static long duration_4_hours = 3000;
-    private static long duration_30_minutes = 300;
+    private static long duration_3_days = 259200000;
+    private static long duration_4_hours = 14400000;
+    private static long duration_30_minutes = 1800000;
 
 }
