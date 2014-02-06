@@ -129,6 +129,8 @@ public class EventCard extends Card {
 
         if(event.alreadyHappened()) {
             parent.findViewById(R.id.card_background).setBackgroundColor(0xffe8e8e8);
+        } else {
+            parent.findViewById(R.id.card_background).setBackgroundColor(Color.TRANSPARENT);
         }
 
         UpdateWeather(event.GetForecastIO());

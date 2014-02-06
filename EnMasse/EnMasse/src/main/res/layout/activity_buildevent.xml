@@ -27,14 +27,30 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />-->
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#ff777777"
+                android:text="@string/view_event_label_event"/>
+
             <EditText
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="16dp"
+                android:textColor="@color/not_black"
                 android:hint="@string/event_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#ff777777"
+                android:text="@string/view_event_label_where"/>
 
             <AutoCompleteTextView
                 android:id="@+id/edit_location"
@@ -42,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="16dp"
                 android:hint="@string/event_location"/>
 
             <TextView
@@ -50,15 +65,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
-                android:text="From"/>
+                android:textColor="#ff777777"
+                android:text="@string/view_event_label_when"/>
 
-            <EditText
-                android:id="@+id/edit_date"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:hint="Event Date"/>
+                android:layout_marginRight="12dp">
+
+                <Button
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Thu, Jan 6, 2014         "
+                    android:background="@drawable/yoshitheme_spinner_background_holo_light"/>
+
+                <Button
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text=" 10:00 AM      "
+                    android:background="@drawable/yoshitheme_spinner_background_holo_light"/>
+
+                </LinearLayout>
 
         </LinearLayout>
 

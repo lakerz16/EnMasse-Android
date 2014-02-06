@@ -109,10 +109,9 @@ public class Event {
         if(datetime == 0)
             return "Event Date";
 
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(datetime);
-        return formatter.format(calendar.getTime());
+        return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss").format(calendar.getTime());
     }
 
     public long GetDateMillis() {
@@ -199,6 +198,9 @@ public class Event {
     }
 
     public boolean shouldRequestWeatherUpdate() {
+
+        if(forecastIO == null)
+            return false;
 
         // compare it to event time
         if(forecastIO.getTimeLastUpdated() > this.GetDateMillis()) {

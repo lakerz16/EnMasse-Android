@@ -4,19 +4,20 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-    </style>
 
     <!-- Application theme. -->
     <!--<style name="AppTheme" parent="AppBaseTheme" />-->
 
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="android:buttonStyle">@style/ButtonStyle</item>
     </style>
 
     <!-- ActionBar styles -->
@@ -24,5 +25,18 @@
         parent="@android:style/Widget.Holo.ActionBar.Solid">
         <item name="android:background">@drawable/actionbar</item>
     </style>
+
+    <style name="EditTextStyle" parent="android:Widget.Holo.EditText">
+        <item name="android:background">@drawable/yoshitheme_edit_text_holo_light</item>
+        <item name="android:textColor">@color/not_black</item>
+    </style>
+    <style name="AutoCompleteTextViewStyle" parent="android:Widget.Holo.AutoCompleteTextView">
+        <item name="android:background">@drawable/yoshitheme_edit_text_holo_light</item>
+        <item name="android:textColor">@color/not_black</item>
+    </style>
+    <style name="ButtonStyle" parent="android:Widget.Holo.EditText">
+        <item name="android:textColor">@color/not_black</item>
+    </style>
+
 
 </resources>

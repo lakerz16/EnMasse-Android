@@ -15,6 +15,10 @@
     <string name="event_location">Event Location</string>
     <string name="menu_changeProfile">Profile</string>
 
+    <string name="view_event_label_event">Event</string>
+    <string name="view_event_label_where">Where</string>
+    <string name="view_event_label_when">When</string>
+
     <color name="label_gray">#ff666666</color>
     <color name="list1t">#FFE2A746</color>
     <color name="list1b">#FFC48E40</color>
@@ -31,7 +35,7 @@
     <color name="nav_top">#FF5CD2CA</color>
     <color name="nav_bottom">#FF4CBFB1</color>
     <color name="nav_middle">#FF56C9BF</color>
-    <color name="foo">#ff30C1BE</color>
+
     <color name="nav_gray">#FF3D3E40</color>
 
     <string name="title_activity_profile">ProfileActivity</string>
@@ -40,5 +44,9 @@
     <color name="status_maybe">#ff53BBB4</color>
     <color name="status_undecided">#ffB7C0C7</color>
     <color name="status_no">#ffE47176</color>
+
+    <color name="foo">#ff30C1BE</color>
+
+    <color name="not_black">#ff555555</color>
 
 </resources>

@@ -39,8 +39,8 @@ public class EventActivity extends RoboActivity {
     EditText editName;
     @InjectView(R.id.edit_location)
     AutoCompleteTextView editLocation;
-    @InjectView(R.id.edit_date)
-    EditText editDate;
+    //@InjectView(R.id.edit_date)
+    //EditText editDate;
 
     GeocodeController geoController;
     Event currentEvent;
@@ -58,7 +58,7 @@ public class EventActivity extends RoboActivity {
 
         editName.setText(currentEvent.GetName());
         editLocation.setText(currentEvent.GetLocation());
-        editDate.setText(Long.toString(currentEvent.GetDateMillis()));
+        //editDate.setText(Long.toString(currentEvent.GetDateMillis()));
 
         if (currentEvent.GetName().equals(ParseController.NullName)) {
             editName.setText("");
