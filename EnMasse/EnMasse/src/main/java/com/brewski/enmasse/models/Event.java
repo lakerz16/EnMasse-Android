@@ -50,7 +50,7 @@ public class Event {
         if (event.has("weather")) {
 
             long lastUpdated = 0;
-            if(event.has("weatherUpdated")) {
+            if (event.has("weatherUpdated")) {
                 lastUpdated = Long.parseLong(event.getString("weatherUpdated"));
             }
 
@@ -83,12 +83,13 @@ public class Event {
         coordinates = l.GetCoordinates();
     }
 
-    public void SetDate(String date) {
-        //this.date = date;
-    }
+    public void setCalendar(Calendar cal) {
+        this.datetime = cal.getTimeInMillis();
 
-    public void SetTime(String time) {
-        //this.time = time;
+        if(forecastIO != null) {
+            this.forecastIO.resetLastUpdated();
+            saveWeather();
+        }
     }
 
     public void SetWeather(WeatherReading weather) {
@@ -98,7 +99,7 @@ public class Event {
     public void SetForecastIO(ForecastIOReading r) {
         this.forecastIO = r;
 
-        if(forecastIO == null)
+        if (forecastIO == null)
             return;
 
         saveWeather();
@@ -106,20 +107,31 @@ public class Event {
 
     public String GetDateTime() {
 
-        if(datetime == 0)
+        if (datetime == 0)
             return "Event Date";
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(datetime);
-        return new SimpleDateFormat("MM/dd/yyyy hh:mm:ss").format(calendar.getTime());
+        return new SimpleDateFormat("M/d/yy h:mma").format(calendar.getTime());
     }
 
     public long GetDateMillis() {
         return datetime;
     }
 
+    public Calendar getCalendar() {
+
+        if(datetime == 0) {
+            return Calendar.getInstance();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(datetime);
+        return cal;
+    }
+
     public long GetDateSeconds() {
-        return datetime/1000;
+        return datetime / 1000;
     }
 
     public String GetName() {
@@ -134,19 +146,42 @@ public class Event {
         return location;
     }
 
+    public String GetTrimmedLocation() {
+        if (location.equals(""))
+            return ParseController.NullLocation;
+
+        String loc = GetLocation();
+
+        if (loc.endsWith(", USA")) {
+            loc = loc.substring(0, loc.length() - 5); // trim " USA"
+        }
+
+        try {
+            if (Integer.toString(Integer.parseInt(loc.substring(loc.length() - 5, loc.length())))
+                    .equals(loc.substring(loc.length() - 5, loc.length()))) {
+                loc = loc.substring(0, loc.length() - 6); // trim zip code
+            }
+        } catch (NumberFormatException e) {}
+
+        return loc;
+    }
+
     public String GetCoordinates() {
         if (coordinates.equals(""))
             return ParseController.NullLocation;
         return coordinates;
     }
+
     public boolean HasCoordinates() {
-        if(coordinates.equals("") || coordinates.equals(ParseController.NullLocation))
+        if (coordinates.equals("") || coordinates.equals(ParseController.NullLocation))
             return false;
         return true;
     }
+
     public String GetLat() {
         return coordinates.split(",")[0];
     }
+
     public String GetLon() {
         return coordinates.split(",")[1];
     }
@@ -199,16 +234,16 @@ public class Event {
 
     public boolean shouldRequestWeatherUpdate() {
 
-        if(forecastIO == null)
-            return false;
+        if (forecastIO == null)
+            return true;
 
         // compare it to event time
-        if(forecastIO.getTimeLastUpdated() > this.GetDateMillis()) {
+        if (forecastIO.getTimeLastUpdated() > this.GetDateMillis()) {
             Log.e(this.GetName(), "Past Event");
             return false;
         }
 
-        if(System.currentTimeMillis() > GetDateMillis()) {
+        if (System.currentTimeMillis() > GetDateMillis()) {
             Log.e(this.GetName(), "Past Event, updating once");
             return true; // past event, update it once
         }
@@ -216,7 +251,7 @@ public class Event {
         long timeToEvent = GetDateMillis() - System.currentTimeMillis();
         long timeSinceLastUpdate = System.currentTimeMillis() - forecastIO.getTimeLastUpdated();
 
-        if(timeSinceLastUpdate < 0) {
+        if (timeSinceLastUpdate < 0) {
             try {
                 throw new Exception("Timezone weirdness");
             } catch (Exception e) {
@@ -224,17 +259,17 @@ public class Event {
             }
         }
 
-        if(timeToEvent > duration_3_days && timeSinceLastUpdate > duration_4_hours) {
-            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
+        if (timeToEvent > duration_3_days && timeSinceLastUpdate > duration_4_hours) {
+            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate / 1000 / 60 + " minutes");
             return true;
         }
 
-        if(timeToEvent < duration_3_days && timeSinceLastUpdate > duration_30_minutes) {
-            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
+        if (timeToEvent < duration_3_days && timeSinceLastUpdate > duration_30_minutes) {
+            Log.e(this.GetName(), "Refreshing... " + timeSinceLastUpdate / 1000 / 60 + " minutes");
             return true;
         }
 
-        Log.e(this.GetName(), "Not Refreshing... " + timeSinceLastUpdate/1000/60 + " minutes");
+        Log.e(this.GetName(), "Not Refreshing... " + timeSinceLastUpdate / 1000 / 60 + " minutes");
         return false;
     }
 

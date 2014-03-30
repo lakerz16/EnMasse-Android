@@ -3,14 +3,23 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="YoshiTheme" parent="@style/_YoshiTheme"/>
+    <style name="YoshiTheme" parent="@style/_YoshiTheme" />
 
-  <style name="_YoshiTheme" parent="android:Theme.Holo.Light">
+    <style name="_YoshiTheme" parent="android:Theme.Holo.Light">
 
-    <item name="android:editTextBackground">@drawable/yoshitheme_edit_text_holo_light</item>
+        <item name="android:editTextBackground">@drawable/yoshitheme_edit_text_holo_light</item>
 
-    <item name="android:dropDownSpinnerStyle">@style/SpinnerYoshiTheme</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerYoshiTheme</item>
 
-  </style>
+
+        <item name="android:textColorHighlight">#9930c1be</item>
+        <item name="android:textSelectHandleLeft">@drawable/yoshitheme_text_select_handle_left
+        </item>
+        <item name="android:textSelectHandleRight">@drawable/yoshitheme_text_select_handle_right
+        </item>
+        <item name="android:textSelectHandle">@drawable/yoshitheme_text_select_handle_middle</item>
+
+
+    </style>
 
 </resources>

@@ -58,6 +58,9 @@ public class ProfileActivity extends Activity {
                 return;
             }
         });
+
+        //overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+        overridePendingTransition(R.anim.vine_right_left, R.anim.vine_pause_scale);
     }
 
     @Override
@@ -112,10 +115,17 @@ public class ProfileActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        overridePendingTransition(R.anim.vine_resume_scale, R.anim.vine_left_right);
     }
 
     private class TextAdapter extends BaseAdapter {

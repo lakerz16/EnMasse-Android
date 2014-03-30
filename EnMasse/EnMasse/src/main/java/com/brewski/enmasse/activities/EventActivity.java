@@ -1,6 +1,8 @@
 package com.brewski.enmasse.activities;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -30,22 +32,24 @@ import com.brewski.enmasse.util.Utilities;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class EventActivity extends RoboActivity {
+public class EventActivity extends RoboActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     @InjectView(R.id.edit_name)
     EditText editName;
     @InjectView(R.id.edit_location)
     AutoCompleteTextView editLocation;
-    //@InjectView(R.id.edit_date)
-    //EditText editDate;
+
+    private Button date;
+    private Button time;
 
     GeocodeController geoController;
     Event currentEvent;
     GeoLocation tempLocation;
-    //AutoCompleteTextView location;
 
     boolean pickedLocationFromList = false;
 
@@ -58,7 +62,6 @@ public class EventActivity extends RoboActivity {
 
         editName.setText(currentEvent.GetName());
         editLocation.setText(currentEvent.GetLocation());
-        //editDate.setText(Long.toString(currentEvent.GetDateMillis()));
 
         if (currentEvent.GetName().equals(ParseController.NullName)) {
             editName.setText("");
@@ -66,38 +69,6 @@ public class EventActivity extends RoboActivity {
         if (currentEvent.GetLocation().equals(ParseController.NullLocation)) {
             editLocation.setText("");
         }
-
-        /*nameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Dialog dialog = new Dialog(EventActivity.this);
-                dialog.setContentView(R.layout.dialog_eventname);
-                dialog.setTitle("Name");
-
-                final EditText name = (EditText) dialog.findViewById(R.id.name);
-                name.append(currentEvent.GetName());
-
-                Button save = (Button) dialog.findViewById(R.id.ok_button);
-                Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
-
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        currentEvent.SetName(name.getText().toString());
-                        dialog.dismiss();
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
-            }
-        });*/
 
         editName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -137,134 +108,45 @@ public class EventActivity extends RoboActivity {
             }
         });
 
-        /*locationButton.setOnClickListener(new View.OnClickListener() {
+        date = (Button) findViewById(R.id.date);
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(EventActivity.this);
-                dialog.setContentView(R.layout.dialog_eventlocation);
-                dialog.setTitle("Location");
 
-                tempLocation = null;
+                Calendar cal = currentEvent.getCalendar();
 
-                location = (AutoCompleteTextView) dialog.findViewById(R.id.location);
-                location.append(currentEvent.GetLocation());
+                DatePickerDialog dialog = new DatePickerDialog(EventActivity.this, EventActivity.this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH));
 
-                location.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (s.toString().length() < 3)
-                            return;
-
-                        geoController.getLocationInfo(EventActivity.this, s.toString());
-                    }
-                });
-
-                location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        tempLocation = returnedLocations.get(i);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-
-                Button save = (Button) dialog.findViewById(R.id.ok_button);
-                Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
-
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (tempLocation == null || !tempLocation.GetName().equals(location.getText().toString())) {
-                            currentEvent.SetLocation(location.getText().toString());
-                            // TODO ask geocode service for a GeoLocation
-                            // TODO set those coordinates
-                        } else {
-                            currentEvent.SetLocation(tempLocation);
-                        }
-
-                        tempLocation = null;
-                        location = null;
-                        dialog.dismiss();
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tempLocation = null;
-                        location = null;
-                        dialog.dismiss();
-                    }
-                });
+                dialog.getDatePicker().setCalendarViewShown(true);
+                dialog.getDatePicker().setSpinnersShown(false);
 
                 dialog.show();
             }
-        });*/
+        });
 
-        /*dateButton.setOnClickListener(new View.OnClickListener() {
+        time = (Button) findViewById(R.id.time);
+        time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(EventActivity.this);
-                dialog.setContentView(R.layout.dialog_eventdate);
-                dialog.setTitle("Date & Time");
 
-                final DatePicker date = (DatePicker) dialog.findViewById(R.id.date);
-                final TimePicker time = (TimePicker) dialog.findViewById(R.id.time);
+                Calendar cal = currentEvent.getCalendar();
 
-                //Utilities.SetDatePicker(date, currentEvent.GetDate());
-                //Utilities.SetTimePicker(time, currentEvent.GetTime());
-
-                Button save = (Button) dialog.findViewById(R.id.ok_button);
-                Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
-
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        StringBuilder strDate = new StringBuilder();
-                        strDate.append(date.getYear()).append("|");
-                        strDate.append(date.getMonth()).append("|");
-                        strDate.append(date.getDayOfMonth());
-
-                        StringBuilder strTime = new StringBuilder();
-                        strTime.append(time.getCurrentHour()).append("|");
-                        strTime.append(time.getCurrentMinute());
-
-                        currentEvent.SetDate(strDate.toString());
-                        currentEvent.SetTime(strTime.toString());
-
-                        dialog.dismiss();
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
+                Dialog dialog = new TimePickerDialog(EventActivity.this, EventActivity.this, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false);
 
                 dialog.show();
             }
-        });*/
+        });
+
+        setDateTimeButtons();
 
         getActionBar().setDisplayUseLogoEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + currentEvent.GetName() + "</font>"));
+        //getActionBar().setTitle(Html.fromHtml("<font color='#ffffff'>" + currentEvent.GetName() + "</font>"));
 
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+        //overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+        overridePendingTransition(R.anim.vine_right_left, R.anim.vine_pause_scale);
     }
 
     ArrayList<GeoLocation> returnedLocations;
@@ -346,7 +228,33 @@ public class EventActivity extends RoboActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        overridePendingTransition(R.anim.vine_resume_scale, R.anim.vine_left_right);
     }
 
+    private void setDateTimeButtons() {
+        Calendar cal = currentEvent.getCalendar();
+
+        date.setText(new SimpleDateFormat("EEE, MMM d, yyyy").format(cal.getTime()));
+        time.setText(new SimpleDateFormat("h:mma").format(cal.getTime()));
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar cal = currentEvent.getCalendar();
+        cal.set(year, month, day);
+        currentEvent.setCalendar(cal);
+
+        setDateTimeButtons();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        Calendar cal = currentEvent.getCalendar();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        currentEvent.setCalendar(cal);
+
+        setDateTimeButtons();
+    }
 }

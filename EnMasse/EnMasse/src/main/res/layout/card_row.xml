@@ -131,7 +131,6 @@
         android:text="6"
         android:visibility="invisible" />
 
-
     <!--
     <ImageView
         android:id="@+id/eventIcon"

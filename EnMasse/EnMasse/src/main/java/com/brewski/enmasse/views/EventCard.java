@@ -32,15 +32,16 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class EventCard extends Card {
 
-    Context context;
-    Event event;
+    private Context context;
+    private Event event;
 
-    public EventCard(Context context, Event event) {
-        super(context);
-        this.context = context;
-        this.event = event;
-        init();
-    }
+    private static int color_going = 0xff99cc00;
+    private static int color_notgoing = 0xffffbb33;
+    private static int color_undecided = 0xffbbbbbb;
+
+    private ImageView weather;
+    private TextView weather_text;
+    private TextView temperature;
 
     public EventCard(Context context, int innerLayout, Event event) {
         super(context, innerLayout);
@@ -53,34 +54,21 @@ public class EventCard extends Card {
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
-                openEvent();
+                Globals g = (Globals) context.getApplicationContext();
+                g.event = event;
+                context.startActivity(new Intent(context, EventActivity.class));
             }
         });
 
-        // call for a weather update
+        setLongClickable(false);
+
         if(event.HasCoordinates() && event.shouldRequestWeatherUpdate()) {
-            //WeatherController weatherController = new WeatherController();
-            //weatherController.getWeatherInfo(this, event);
 
             ForecastIOController forecastIOController = new ForecastIOController();
             forecastIOController.getWeatherInfo(this, event);
         }
     }
 
-    private void openEvent() {
-        Globals g = (Globals) context.getApplicationContext();
-        g.event = event;
-        context.startActivity(new Intent(context, EventActivity.class));
-    }
-
-    private static int color_going = 0xff99cc00;
-    private static int color_notgoing = 0xffffbb33;
-    private static int color_undecided = 0xffbbbbbb;
-
-    ImageView weather;
-    TextView weather_text;
-    TextView temperature;
-    //TextView weatherCode;
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -119,7 +107,7 @@ public class EventCard extends Card {
         date.setText(event.GetDateTime());
 
         TextView location = (TextView) parent.findViewById(R.id.event_location);
-        location.setText(event.GetLocation());
+        location.setText(event.GetTrimmedLocation());
 
         weather = (ImageView) parent.findViewById(R.id.weather);
         temperature = (TextView) parent.findViewById(R.id.temperature);
@@ -136,17 +124,6 @@ public class EventCard extends Card {
         UpdateWeather(event.GetForecastIO());
     }
 
-    /*public void UpdateWeather(WeatherReading w) {
-        event.SetWeather(w);
-
-        if(event.GetWeather() == null)
-            return;
-
-        weather.setImageResource(event.GetWeather().GetWeatherResource(event.GetDateMillis()));
-        temperature.setText( " " + event.GetWeather().GetTemperature(event.GetDateMillis()) + (char) 0x00B0);
-        weatherCode.setText(Integer.toString(event.GetWeather().GetDebugWeatherCode(event.GetDateMillis())));
-    }*/
-
     public void UpdateWeather(ForecastIOReading r) {
 
         event.SetForecastIO(r);
@@ -159,9 +136,7 @@ public class EventCard extends Card {
 
         weather_text.setTypeface(((Globals)context.getApplicationContext()).getWeatherTypeface());
 
-        //weather_text.setText("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890`~!@#$%^&*()-_=+[]{}<>,./?");
         weather_text.setText(event.GetForecastIO().getWeatherResource());
         temperature.setText( " " + event.GetForecastIO().getTemperature() + (char) 0x00B0);
-        //weatherCode.setText(event.GetForecastIO().getPrecipitationChance());
     }
 }

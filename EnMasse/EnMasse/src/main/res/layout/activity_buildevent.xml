@@ -10,22 +10,9 @@
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical">
-
-            <!--<Button
-                android:id="@+id/name_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/location_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/date_button"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent" />-->
+            android:orientation="vertical"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,7 +20,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
                 android:textColor="#ff777777"
-                android:text="@string/view_event_label_event"/>
+                android:text="@string/view_event_label_event" />
 
             <EditText
                 android:id="@+id/edit_name"
@@ -42,7 +29,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:textColor="@color/not_black"
-                android:hint="@string/event_name"/>
+                android:hint="@string/event_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,7 +37,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
                 android:textColor="#ff777777"
-                android:text="@string/view_event_label_where"/>
+                android:text="@string/view_event_label_where" />
 
             <AutoCompleteTextView
                 android:id="@+id/edit_location"
@@ -58,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:hint="@string/event_location"/>
+                android:hint="@string/event_location" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +53,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
                 android:textColor="#ff777777"
-                android:text="@string/view_event_label_when"/>
+                android:text="@string/view_event_label_when" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -79,18 +66,22 @@
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" Thu, Jan 6, 2014         "
-                    android:background="@drawable/yoshitheme_spinner_background_holo_light"/>
+                    android:background="@drawable/yoshitheme_spinner_background_holo_light"
+                    android:focusableInTouchMode="false"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="24dp"/>
 
                 <Button
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text=" 10:00 AM      "
-                    android:background="@drawable/yoshitheme_spinner_background_holo_light"/>
+                    android:background="@drawable/yoshitheme_spinner_background_holo_light"
+                    android:focusableInTouchMode="false"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="24dp"/>
 
-                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -83,7 +83,7 @@ public class OldViewEventActivity extends Activity {
     		
     		inflater.inflate(R.layout.people_row, peopleList);
     		View x = peopleList.getChildAt(i);
-    		x.setBackgroundResource(listBacks[2]);
+    		//x.setBackgroundResource(listBacks[2]);
     		i++;
     		
     		try {
@@ -95,18 +95,6 @@ public class OldViewEventActivity extends Activity {
     		}
     	}
 	}
-	
-	int[] listBacks = {R.drawable.list1,
-					R.drawable.list2,
-					R.drawable.list3,
-					R.drawable.list4,
-					R.drawable.list5,
-					R.drawable.list6};
-	
-	int[] stateIcons = {R.drawable.state_gray,
-					R.drawable.state_red,
-					R.drawable.state_blue,
-					R.drawable.state_green};
 	
 	private void refreshQuery() {
 		

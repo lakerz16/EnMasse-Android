@@ -37,6 +37,10 @@ public class ForecastIOReading {
         return lastUpdated;
     }
 
+    public void resetLastUpdated() {
+        lastUpdated = 0;
+    }
+
     public String getWeatherResource() {
         if(current == null) {
             return "";

@@ -19,23 +19,6 @@
     <string name="view_event_label_where">Where</string>
     <string name="view_event_label_when">When</string>
 
-    <color name="label_gray">#ff666666</color>
-    <color name="list1t">#FFE2A746</color>
-    <color name="list1b">#FFC48E40</color>
-    <color name="list2t">#FF60BD8A</color>
-    <color name="list2b">#FF4EA171</color>
-    <color name="list3t">#FF18A1B0</color>
-    <color name="list3b">#FF118894</color>
-    <color name="list4t">#FF6169A7</color>
-    <color name="list4b">#FF53528B</color>
-    <color name="list5t">#FF973B96</color>
-    <color name="list5b">#FF773971</color>
-    <color name="list6t">#FF70706E</color>
-    <color name="list6b">#FF515456</color>
-    <color name="nav_top">#FF5CD2CA</color>
-    <color name="nav_bottom">#FF4CBFB1</color>
-    <color name="nav_middle">#FF56C9BF</color>
-
     <color name="nav_gray">#FF3D3E40</color>
 
     <string name="title_activity_profile">ProfileActivity</string>
