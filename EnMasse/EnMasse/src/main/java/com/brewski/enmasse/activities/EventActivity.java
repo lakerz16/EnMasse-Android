@@ -4,14 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +24,6 @@ import com.brewski.enmasse.controllers.GeocodeController;
 import com.brewski.enmasse.controllers.ParseController;
 import com.brewski.enmasse.models.Event;
 import com.brewski.enmasse.models.GeoLocation;
-import com.brewski.enmasse.util.Utilities;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -35,7 +31,6 @@ import roboguice.inject.InjectView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class EventActivity extends RoboActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 

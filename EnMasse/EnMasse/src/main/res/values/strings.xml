@@ -11,10 +11,9 @@
     <string name="menu_showMap">Show on Map</string>
     <string name="menu_eventSettings">Event Settings</string>
     <string name="menu_buildDone">Done</string>
-    <string name="event_name">Event Name</string>
-    <string name="event_location">Event Location</string>
+    <string name="event_name">Name</string>
+    <string name="event_location">Location</string>
     <string name="menu_changeProfile">Profile</string>
-
     <string name="view_event_label_event">Event</string>
     <string name="view_event_label_where">Where</string>
     <string name="view_event_label_when">When</string>
@@ -27,9 +26,9 @@
     <color name="status_maybe">#ff53BBB4</color>
     <color name="status_undecided">#ffB7C0C7</color>
     <color name="status_no">#ffE47176</color>
-
     <color name="foo">#ff30C1BE</color>
-
     <color name="not_black">#ff555555</color>
+
+    <string name="title_activity_chat">ChatActivity</string>
 
 </resources>
