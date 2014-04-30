@@ -187,6 +187,9 @@ public class EventActivity extends RoboActivity implements DatePickerDialog.OnDa
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.menu_chat:
+                startActivity(new Intent(this, ChatActivity.class));
+                break;
             case R.id.menu_showMap:
                 if(currentEvent.GetLocation().equals(ParseController.NullLocation)) {
                     break;

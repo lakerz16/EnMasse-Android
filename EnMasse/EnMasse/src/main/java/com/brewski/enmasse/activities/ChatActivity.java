@@ -12,8 +12,19 @@ public class ChatActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getActionBar().setDisplayUseLogoEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        overridePendingTransition(R.anim.vine_right_left, R.anim.vine_pause_scale);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        //overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
+        overridePendingTransition(R.anim.vine_resume_scale, R.anim.vine_left_right);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -27,10 +38,16 @@ public class ChatActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.action_settings:
+                return true;
+            default:
+                break;
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 }
