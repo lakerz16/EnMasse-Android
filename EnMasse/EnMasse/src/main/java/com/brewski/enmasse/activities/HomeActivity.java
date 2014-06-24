@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.brewski.enmasse.R;
+import com.brewski.enmasse.controllers.BackendController;
+import com.brewski.enmasse.controllers.ParseController;
 import com.brewski.enmasse.models.Event;
 import com.brewski.enmasse.util.Utilities;
 import com.brewski.enmasse.views.EventCard;
@@ -38,6 +40,8 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
     private ArrayList<Card> cards = new ArrayList<Card>();
     private Globals globals;
 
+    private BackendController backendController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,8 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
         ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
 
         globals.profile = Utilities.GetSavedDeveloperProfile(this);
+
+        backendController = new ParseController();
     }
 
     @Override
@@ -91,38 +97,8 @@ public class HomeActivity extends RoboActivity implements PullToRefreshAttacher.
     //int[] listColors = {R.color.list1t, R.color.list2t, R.color.list3t, R.color.list4t, R.color.list5t, R.color.list6t};
 
     private void refreshEventsList() {
-
-        ParseQuery query = new ParseQuery("Events");
-        query.findInBackground(new FindCallback() {
-            @Override
-            public void done(List eventQuery, ParseException e) {
-                if (e == null) {
-
-                    globals.events.clear();
-                    for (ParseObject p : (ArrayList<ParseObject>) eventQuery) {
-                        globals.events.add(new Event(p));
-                    }
-
-                    Utilities.SortEventsList(globals.events);
-
-                    cards.clear();
-                    for (Event event : globals.events) {
-                        cards.add(new EventCard(HomeActivity.this, R.layout.card_row, event));
-                    }
-
-                    CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(HomeActivity.this, cards);
-
-                    if (listView != null) {
-                        listView.setAdapter(mCardArrayAdapter);
-                    }
-
-                } else {
-                    Log.e("score", "Error: " + e.getMessage());
-                }
-
-                mPullToRefreshAttacher.setRefreshComplete();
-            }
-        });
+        backendController.refreshEventsList(HomeActivity.this, globals.events, cards, listView);
+        mPullToRefreshAttacher.setRefreshComplete();
     }
 
     @Override
